@@ -80,14 +80,12 @@
                         <div class="collapse" id="collapseCategories" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#pagesCollapseAuth" aria-expanded="false"
-                                    aria-controls="pagesCollapseAuth">
+                                <a class="nav-link collapsed" href="#" data-bs-target="#pagesCollapseAuth"
+                                    aria-expanded="false" aria-controls="pagesCollapseAuth">
                                     Danh Sách Danh Mục
                                 </a>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
-                                    aria-controls="pagesCollapseError">
+                                <a class="nav-link collapsed" href="#" data-bs-target="#pagesCollapseError"
+                                    aria-expanded="false" aria-controls="pagesCollapseError">
                                     Thêm Danh Mục
                                 </a>
                             </nav>
@@ -104,15 +102,10 @@
                         <div class="collapse" id="collapseAccounts" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                <a class="nav-link collapsed" href="index.php?act=listtaikhoan"
                                     data-bs-target="#pagesCollapseAuth" aria-expanded="false"
                                     aria-controls="pagesCollapseAuth">
                                     Danh Sách Tài Khoản
-                                </a>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
-                                    aria-controls="pagesCollapseError">
-                                    Thêm Tài Khoản
                                 </a>
                             </nav>
                         </div>
