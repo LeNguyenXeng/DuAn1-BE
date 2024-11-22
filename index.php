@@ -26,8 +26,6 @@ if(isset($_GET['act'])){
                 if(is_array($checkuser)){
                     $_SESSION['user'] = $checkuser;
                     header('location: index.php');  
-
-
                 }
                 else{
                     $thongbao = "Tài khoản không tồn tại";  
@@ -64,19 +62,19 @@ if(isset($_GET['act'])){
                 include "view/taikhoan/edit_taikhoan.php";
                 break;
 
-            case 'quenmk':
-                if(isset($_POST['quenmk'])&&($_POST['quenmk'])){
-                    $email = $_POST['email'];
-                    $checkemail = checkemail($email);
-                    if(is_array($checkemail)){
-                        $thongbao = "Mật khẩu của bạn là: ".$checkemail['pass'];
-                    }
-                    else{
-                        $thongbao = "Email này không tồn tại";
-                    }
+        case 'quenmk':
+            if(isset($_POST['quenmk'])&&($_POST['quenmk'])){
+                $email = $_POST['email'];
+                $checkemail = checkemail($email);
+                if(is_array($checkemail)){
+                    $thongbao = "Mật khẩu của bạn là: ".$checkemail['pass'];
                 }
-                include "view/taikhoan/quenmk.php";
-                break;
+                else{
+                    $thongbao = "Email này không tồn tại";
+                }
+                }
+            include "view/taikhoan/quenmk.php";
+            break;
         case 'shop':
             include "view/shop.php";
             break;

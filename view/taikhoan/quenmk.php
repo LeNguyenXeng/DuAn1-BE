@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Register</title>
+    <title>Quên Mật Khẩu</title>
     <?php
     include "view/header.php";
 ?>

@@ -9,6 +9,9 @@ if(isset($_GET['act'])){
         case 'home':
             include "home.php";
             break;
+        case 'listsp':
+            include "sanpham/listsp.php";
+        break;
         case 'listtaikhoan':
             $listtaikhoan = loadall_taikhoan();
             include "taikhoan/list.php";
