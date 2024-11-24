@@ -8,9 +8,12 @@ if(isset($_GET['act'])){
     switch ($act) {
         case 'home':
             include "home.php";
-            break;
-        case 'listsp':
-            include "sanpham/listsp.php";
+        break;
+        case 'listdm':
+            include "danhmuc/listdm.php";
+        break;
+        case 'add_category':
+            include "danhmuc/add_category.php";
         break;
         case 'listtaikhoan':
             $listtaikhoan = loadall_taikhoan();
