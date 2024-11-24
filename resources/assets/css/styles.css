@@ -10859,9 +10859,7 @@ body {
   min-width: 0;
 }
 
-#layoutSidenav {
-  display: flex;
-}
+
 #layoutSidenav #layoutSidenav_nav {
   flex-basis: 225px;
   flex-shrink: 0;
@@ -11244,13 +11242,16 @@ body {
 
 @font-face {
   font-family: PoppisBold;
-  src: url(/assets/fonts/FzPoppins/FZ\ Poppins-Bold.ttf);
+  src: url('http://localhost/DUAN1/resources/assets/fonts/FzPoppins/FZ Poppins-SemiBold.ttf') format('truetype'),
 }
 .navbar-brand{
   font-family: PoppisBold, sans-serif;
-
 }
 .dashed-line {
   border: none; 
   border-top: 1px solid #474747; 
 }
+.text-muted{
+  margin: auto;
+}
+
