@@ -5,8 +5,27 @@
     <title>Product Detail</title>
     <?php
     include "view/header.php";
-?>
-
+    // Kết nối đến cơ sở dữ liệu
+    $host = 'localhost';
+    $dbname = 'duan1';
+    $username = 'root';
+    $password = '';
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+        // Truy vấn bình luận của sản phẩm cụ thể
+        $id_sp = 3; // ID sản phẩm bạn muốn lấy bình luận
+        $sql = "SELECT * FROM binh_luan WHERE id_sp = :id_sp";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id_sp' => $id_sp]);
+    
+        // Lấy tất cả bình luận
+        $binh_luan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage());
+    }
+    ?>
     <div class="container" style="margin-top: 60px;">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
             <a href="index.php?act=home" class="stext-109 cl8 hov-cl1 trans-04">
@@ -271,85 +290,63 @@
                                     <div class="p-b-30 m-lr-15-sm">
                                         <!-- Review -->
                                         <div class="flex-w flex-t p-b-68">
-                                            <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                            <h3>Bình luận sản phẩm</h3> <br>
+                                            
+                                            <!-- <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
                                                 <img src="./resources/assets/img/avatar-01.jpg" alt="AVATAR">
-                                            </div>
+                                            </div> -->
 
                                             <div class="size-207">
+                                                <?php foreach($binh_luan as $comment): ?>
+
                                                 <div class="flex-w flex-sb-m p-b-17">
                                                     <span class="mtext-107 cl2 p-r-20">
-                                                        Xèng
+                                                    <?php echo htmlspecialchars($comment['ten']); ?>
                                                     </span>
 
-                                                    <span class="fs-18 cl11">
+                                                    <!-- <span class="fs-18 cl11">
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star-half"></i>
-                                                    </span>
+                                                    </span> -->
                                                 </div>
 
                                                 <p class="stext-102 cl6">
-                                                    Sản phẩm đẹp, chất liệu áo tốt. Cho shop 5 sao, lần sau sẽ ủng hộ
-                                                    tiếp.
-                                                    Chất lượng là số 1!!
+                                                <?php echo nl2br(htmlspecialchars($comment['noidung'])); ?>
                                                 </p>
+                                                <?php endforeach; ?>
                                             </div>
                                         </div>
 
                                         <!-- Add review -->
-                                        <form class="w-full">
-                                            <h5 class="mtext-108 cl2 p-b-7">
-                                                Thêm đánh giá của bạn
-                                            </h5>
+                    <form class="w-full" id="commentForm">
+                            <h5 class="mtext-108 cl2 p-b-7">Thêm đánh giá của bạn</h5>
 
-                                            <p class="stext-102 cl6">
-                                                Your email address will not be published. Required fields are marked *
-                                            </p>
+                            <p class="stext-102 cl6">Your email address will not be published. Required fields are marked *</p> <br>
+                            <div class="row p-b-25">
+                                <div class="col-12 p-b-5">
+                                    <label class="stext-102 cl3" for="review">Bình luận</label>
+                                    <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review" required></textarea>
+                                </div>
 
-                                            <div class="flex-w flex-m p-t-50 p-b-23">
-                                                <span class="stext-102 cl3 m-r-16">
-                                                    Bình chọn
-                                                </span>
+                                <div class="col-sm-6">
+                                    <label class="stext-102 cl3" for="name" style="margin-top: 10px;">Họ Tên</label>
+                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name" required>
+                                </div>
 
-                                                <span class="wrap-rating fs-18 cl11 pointer" style="margin-top: -9px;">
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <input class="dis-none" type="number" name="rating">
-                                                </span>
-                                            </div>
+                                <div class="col-sm-6">
+                                    <label class="stext-102 cl3" for="email" style="margin-top: 10px;">Email</label>
+                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="email" name="email" required>
+                                </div>
+                            </div>
 
-                                            <div class="row p-b-25">
-                                                <div class="col-12 p-b-5">
-                                                    <label class="stext-102 cl3" for="review">Bình luận</label>
-                                                    <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
-                                                        id="review" name="review"></textarea>
-                                                </div>
+                            <button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+                                Bình luận
+                            </button>
+                    </form>
 
-                                                <div class="col-sm-6">
-                                                    <label class="stext-102 cl3" for="name" style="margin-top: 10px;">Họ
-                                                        Tên</label>
-                                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name"
-                                                        type="text" name="name">
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <label class="stext-102 cl3" for="email"
-                                                        style="margin-top: 10px;">Email</label>
-                                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
-                                                        type="text" name="email">
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                                Bình luận
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -667,3 +664,59 @@
     <?php
     include "view/footer.php";
 ?>
+<script>
+    document.getElementById('commentForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Ngăn form submit mặc định
+
+        // Lấy giá trị từ các trường
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const review = document.getElementById('review').value.trim();
+
+        let hasError = false;
+
+        // Kiểm tra các trường
+        if (!name) {
+            alert('Vui lòng nhập họ tên.');
+            hasError = true;
+        }
+        if (!email || !validateEmail(email)) {
+            alert('Vui lòng nhập email hợp lệ.');
+            hasError = true;
+        }
+        if (!review) {
+            alert('Vui lòng nhập bình luận.');
+            hasError = true;
+        }
+
+        if (!hasError) {
+            // Nếu không có lỗi
+            alert('Đã thêm bình luận thành công!');
+            // Gửi dữ liệu qua PHP bằng Fetch API
+            submitComment(name, email, review);
+        }
+    });
+
+    // Hàm kiểm tra định dạng email
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // Hàm gửi dữ liệu qua PHP
+    async function submitComment(name, email, review) {
+        const response = await fetch('submit_comment.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, review }),
+        });
+
+        if (response.ok) {
+            location.reload(); // Load lại trang sau khi gửi thành công
+        } else {
+            alert('Đã xảy ra lỗi khi gửi bình luận.');
+        }
+    }
+</script>
