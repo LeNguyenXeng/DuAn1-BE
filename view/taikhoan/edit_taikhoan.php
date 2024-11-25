@@ -56,8 +56,16 @@
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="tkmk form-label">Mật khẩu</label>
-                <input name="pass" type="password" class="inputform form-control" id="exampleInputPassword1"
-                    placeholder=" Mật khẩu" value="<?php echo $pass ?>">
+                <input name="pass" type="password" class="inputform form-control" id="myInput" placeholder=" Mật khẩu"
+                    value="<?php echo $pass ?>">
+                <div class="form-check mt-3"
+                    style=" margin-left: 20px; font-family: Popspismedium, sans-serif; font-size: 13px; color: black">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
+                        onclick="myFunction()">
+                    <label class="" for="flexCheckChecked">
+                        Hiển thị mật khẩu
+                    </label>
+                </div>
             </div>
             <div class="button">
                 <input type="hidden" name="id" value="<?php echo $id ?>">
@@ -68,3 +76,13 @@
     <?php
     include "view/footer.php";
 ?>
+    <script>
+    function myFunction() {
+        var x = document.getElementById("myInput");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    </script>
