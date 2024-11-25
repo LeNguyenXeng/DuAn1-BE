@@ -15,11 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $sql = "INSERT INTO danh_muc (name) VALUES ('$name')";
     if ($conn->query($sql) === TRUE) {
-        header("Location: listdm.php");
+        echo "Thêm danh mục thành công";
     } else {
         echo "Lỗi: " . $conn->error;
     }
 }
+$conn->close();
+
 ?>
 
 <!DOCTYPE html>

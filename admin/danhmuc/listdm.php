@@ -93,7 +93,7 @@ $result = $conn->query($sql);
         }
 
         .btn:hover {
-            background-color: #0056b3;
+            background-color:#0056b3;
         }
     </style>
 </head>
@@ -112,8 +112,8 @@ $result = $conn->query($sql);
                         <td><?= $row['id'] ?></td>
                         <td><?= $row['name'] ?></td>
                         <td>
-                            <a href="edit_category.php?id=<?= $row['id'] ?>">Sửa</a> | 
-                            <a href="delete_category.php?id=<?= $row['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                            <a href="danhmuc/edit_category.php?id=<?= $row['id'] ?>">Sửa</a> | 
+                            <a href="danhmuc/delete_category.php?id=<?= $row['id'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>

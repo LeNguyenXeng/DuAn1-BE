@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("si", $name, $id);
 
         if ($stmt->execute()) {
-            header("Location: listdm.php");
+            header("Location: ../index.php?act=listdm");
             exit(); 
         } else {
             echo "Lỗi: " . $stmt->error;
@@ -44,13 +44,67 @@ $row = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sửa danh mục</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            background: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Sửa danh mục</h1>
-    <form method="POST">
-        <label for="name">Tên danh mục:</label><br>
-        <input type="text" id="name" name="name" value="<?= htmlspecialchars($row['name']) ?>" required><br><br>
-        <button type="submit">Lưu</button>
-    </form>
+    <div class="container">
+        <h1>Sửa danh mục</h1>
+        <form method="POST">
+            <label for="name">Tên danh mục:</label>
+            <input type="text" id="name" name="name" value="<?= htmlspecialchars($row['name']) ?>" required>
+            <button type="submit">Lưu</button>
+        </form>
+    </div>
 </body>
 </html>
+

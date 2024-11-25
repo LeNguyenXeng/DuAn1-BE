@@ -10,12 +10,13 @@ if ($conn->connect_error) {
 }
 
 $id = $_GET['id'];
-$sql = "DELETE FROM danh_muc WHERE id=$id";
+$sql = "DELETE FROM danh_muc WHERE id = $id";
 if ($conn->query($sql) === TRUE) {
-    header("Location: listdm.php");
+    echo "Danh mục đã được xóa";
 } else {
     echo "Lỗi: " . $conn->error;
 }
 
 $conn->close();
+header("Location: ../index.php?act=listdm");
 ?>
