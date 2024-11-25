@@ -16,7 +16,7 @@
                 <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
             </a>
             <span class="stext-109 cl4">
-                Login
+                Register
             </span>
         </div>
     </div>
@@ -30,30 +30,30 @@
                 <h6 class="texta text-center">Đăng nhập tại dây</h6>
             </a>
         </div>
-        <form>
+        <form method="POST" action="">
             <div class="mb-3">
                 <label style="margin-top: 15px" for="exampleInputEmail1" class="tkmk form-label">Họ tên<nav></nav>
                 </label>
-                <input type="text" class="inputform form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder=" Họ tên" required>
+                <input name="user" type="text" class="inputform form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder=" Họ tên" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="tkmk form-label">Số điện thoại</label>
-                <input type="number" class="inputform form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder=" Số điện thoại" required>
+                <input name="tel" type="number" class="inputform form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder=" Số điện thoại" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="tkmk form-label">Email</label>
-                <input type="email" class="inputform form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder=" Email" required>
+                <input name="email" type="email" class="inputform form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder=" Email" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="tkmk form-label">Mật khẩu</label>
-                <input type="password" class="inputform form-control" id="exampleInputPassword1"
+                <input name="pass" type="password" class="inputform form-control" id="exampleInputPassword1"
                     placeholder=" Mật khẩu">
             </div>
             <div class="button">
-                <button type="button" class="btn btn-dark">Đăng Ký</button>
+                <input name="dangky" type="submit" value="Đăng Ký" class="btn btn-dark"></input>
             </div>
         </form>
     </div>
