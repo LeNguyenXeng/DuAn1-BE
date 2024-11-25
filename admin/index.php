@@ -13,6 +13,10 @@ if(isset($_GET['act'])){
             include "danhmuc/listdm.php";
         break;
         case 'add_category':
+            if(isset($_POST['themdm'])&&($_POST['themdm'])){
+                $name = $_POST['name'];
+                header('location:index.php?act=listdm');
+            }
             include "danhmuc/add_category.php";
         break;
         case 'listtaikhoan':

@@ -1,5 +1,4 @@
 <?php
-// Kết nối cơ sở dữ liệu
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -10,7 +9,6 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Lấy danh sách danh mục
 $sql = "SELECT * FROM danh_muc ORDER BY id DESC";
 $result = $conn->query($sql);
 ?>
@@ -102,7 +100,6 @@ $result = $conn->query($sql);
 <body>
     <div class="container">
         <h1>Quản lý danh mục</h1>
-        <!-- <a href="add_category.php" class="btn">Thêm danh mục</a> -->
         <table>
             <tr>
                 <th>ID</th>
