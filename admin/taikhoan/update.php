@@ -56,10 +56,15 @@
                                 value="<?php if (isset($role) && ($role != "")) echo $role; ?>">
                         </div>
                         <div class="button">
-                            <input type="hidden" value="<?php if (isset($id) && ($id != "")) echo $id; ?>">
+                            <input type="hidden" name="id" value="<?php if(isset($id)&&($id!="")) echo $id ;?>">
                             <input name="capnhat" type="submit" value="Cập Nhật" class="btn btn-dark"></input>
                         </div>
                     </form>
+                    <?php
+                    if(isset($thongbao)&&($thongbao!="")){
+                        echo $thongbao;
+                    }
+                    ?>
                 </div>
             </div>
         </div>
