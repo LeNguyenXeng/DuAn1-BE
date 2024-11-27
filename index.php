@@ -25,6 +25,7 @@ if(isset($_GET['act'])){
                 $checkuser = checkuser($email,$pass);
                 if(is_array($checkuser)){
                     $_SESSION['user'] = $checkuser;
+                    $_SESSION['role'] = $checkuser['role'];
                     header('location: index.php');  
                 }
                 else{

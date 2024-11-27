@@ -1,8 +1,19 @@
 <?php
+ob_start();
+session_start();
 include "header.php";
 include "../model/taikhoan.php";
 include "../model/sanpham.php";
 include "../model/pdo.php";
+if(!isset($_SESSION['user'])){
+    header('location: login.php');
+    exit();
+}
+$userRole = $_SESSION['role'];
+if($userRole !== 1){
+    header('location: login.php');
+    exit();
+}
 
 
 if(isset($_GET['act'])){
@@ -10,6 +21,9 @@ if(isset($_GET['act'])){
     switch ($act) {
         case 'home':
             include "home.php";
+        break;
+        case 'login':
+            include "login.php";
         break;
         case 'listdm':
             include "danhmuc/listdm.php";
