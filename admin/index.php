@@ -12,6 +12,12 @@ if(isset($_GET['act'])){
         case 'listdm':
             include "danhmuc/listdm.php";
         break;
+        case 'xoadm':
+            include "danhmuc/delete_category.php";
+            break;
+            case 'suadm':
+                include "danhmuc/edit_category.php";
+                break;
         case 'add_category':
             if(isset($_POST['themdm'])&&($_POST['themdm'])){
                 $name = $_POST['name'];
