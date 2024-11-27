@@ -38,7 +38,14 @@
                 <input name="quenmk" type="submit" value="Gửi" class="btn btn-dark">
             </div>
         </form>
+        <?php if (isset($thongbao) && $thongbao != ""): ?>
+        <div class="alert text-center text-danger" style="margin-top: 10px; font-family: Popspismedium, sans-serif;">
+            <?php echo $thongbao; ?>
+        </div>
+        <?php endif; ?>
+
     </div>
+
     <?php
     include "view/footer.php";
 ?>

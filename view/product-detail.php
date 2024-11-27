@@ -378,7 +378,7 @@
                             <div class="block2-pic hov-img0">
                                 <img src="./resources/assets/img/product-01.jpg" alt="IMG-PRODUCT">
 
-                                <a href=""
+                                <a href="index.php?act=product"
                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     Xem Chi Tiết
                                 </a>
@@ -386,7 +386,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         CREW LS JERSEY - RED
                                     </a>
@@ -414,7 +414,7 @@
                             <div class="block2-pic hov-img0">
                                 <img src="./resources/assets/img/product-02.jpg" alt="IMG-PRODUCT">
 
-                                <a href="#"
+                                <a href="index.php?act=product"
                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     Xem Chi Tiết
                                 </a>
@@ -422,7 +422,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         CREW LS JERSEY - BLACK
                                     </a>
@@ -458,7 +458,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         EDGE WASHED JEANS - BLUE
                                     </a>
@@ -494,7 +494,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         EDGE WASHED JEANS - LIGHT BLUE
                                     </a>
@@ -530,7 +530,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         NIGHTSTAR BACKPACK
                                     </a>
@@ -566,7 +566,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         S LETTER CAP - BLUE
                                     </a>
@@ -602,7 +602,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         E LETTER CAP - BEIGE
                                     </a>
@@ -638,7 +638,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         KA STRIPED TOTE - PINK
                                     </a>
