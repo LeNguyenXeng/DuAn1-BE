@@ -26,6 +26,7 @@ if(isset($_GET['act'])){
                 header('location:index.php?act=listdm');
             }
             include "danhmuc/add_category.php";
+
         break;
         case 'listtaikhoan':
             $listtaikhoan = loadall_taikhoan();

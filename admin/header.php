@@ -11,8 +11,6 @@
     <link rel="stylesheet" type="text/css" href="../resources/assets/css/styles.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <link rel="icon" type="image/x-icon" href="../resources/assets/img/favicon.png">
 </head>
 
@@ -68,6 +66,10 @@
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
+<<<<<<<<< Temporary merge branch 1
+                                <a class="nav-link" href="index.php?act=listsp">Danh Sách Sản Phẩm</a>
+                                <a class="nav-link" href="index.php?act=add">Thêm Sản Phẩm</a>
+=========
                                 <a class="nav-link" href="layout-static.html">Danh Sách Sản Phẩm</a>
                                 <a class="nav-link" href="layout-sidenav-light.html">Thêm Sản Phẩm</a>
                                 <a class="nav-link" href="index.php?act=listsp">Danh Sách Sản Phẩm</a>
@@ -89,6 +91,7 @@
                                     Danh Sách Danh Mục
                                 </a>
                                 <a class="nav-link collapsed" href="index.php?act=add_category" data-bs-target="#pagesCollapseError"
+>>>>>>>>> Temporary merge branch 2
                                     aria-expanded="false" aria-controls="pagesCollapseError">
                                     Thêm Danh Mục
                                 </a>
