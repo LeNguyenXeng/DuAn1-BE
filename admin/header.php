@@ -66,10 +66,8 @@
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-<<<<<<<<< Temporary merge branch 1
                                 <a class="nav-link" href="index.php?act=listsp">Danh Sách Sản Phẩm</a>
                                 <a class="nav-link" href="index.php?act=add">Thêm Sản Phẩm</a>
-=========
                                 <a class="nav-link" href="layout-static.html">Danh Sách Sản Phẩm</a>
                                 <a class="nav-link" href="layout-sidenav-light.html">Thêm Sản Phẩm</a>
                                 <a class="nav-link" href="index.php?act=listsp">Danh Sách Sản Phẩm</a>
@@ -91,7 +89,6 @@
                                     Danh Sách Danh Mục
                                 </a>
                                 <a class="nav-link collapsed" href="index.php?act=add_category" data-bs-target="#pagesCollapseError"
->>>>>>>>> Temporary merge branch 2
                                     aria-expanded="false" aria-controls="pagesCollapseError">
                                     Thêm Danh Mục
                                 </a>
