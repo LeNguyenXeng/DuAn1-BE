@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['name'])) {
         $name = $_POST['name'];
 
-        $stmt = $conn->prepare("UPDATE danh_muc SET name=? WHERE id=?");
+        $stmt = $conn->prepare("UPDATE danhmuc SET name=? WHERE id=?");
         $stmt->bind_param("si", $name, $id);
 
         if ($stmt->execute()) {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-$sql = "SELECT * FROM danh_muc WHERE id=$id";
+$sql = "SELECT * FROM danhmuc WHERE id=$id";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 ?>

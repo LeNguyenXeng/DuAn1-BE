@@ -9,7 +9,7 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM danh_muc ORDER BY id DESC";
+$sql = "SELECT * FROM danhmuc ORDER BY id DESC";
 $result = $conn->query($sql);
 ?>
 

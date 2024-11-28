@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
 
-    $sql = "INSERT INTO danh_muc (name) VALUES ('$name')";
+    $sql = "INSERT INTO danhmuc (name) VALUES ('$name')";
     if ($conn->query($sql) === TRUE) {
         echo "Thêm danh mục thành công";
     } else {

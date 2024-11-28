@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 }
 
 $id = $_GET['id'];
-$sql = "DELETE FROM danh_muc WHERE id = $id";
+$sql = "DELETE FROM danhmuc WHERE id = $id";
 if ($conn->query($sql) === TRUE) {
     echo "Danh mục đã được xóa";
 } else {
