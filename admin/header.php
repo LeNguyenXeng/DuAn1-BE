@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -66,12 +67,16 @@
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
+<<<<<<< HEAD
                                 <a class="nav-link" href="index.php?act=listsp">Danh Sách Sản Phẩm</a>
                                 <a class="nav-link" href="index.php?act=add">Thêm Sản Phẩm</a>
                                 <a class="nav-link" href="layout-static.html">Danh Sách Sản Phẩm</a>
                                 <a class="nav-link" href="layout-sidenav-light.html">Thêm Sản Phẩm</a>
+=======
+>>>>>>> 48ab79209da792981766d63b6ff0b9a23bae62ed
                                 <a class="nav-link" href="index.php?act=listsp">Danh Sách Sản Phẩm</a>
                                 <a class="nav-link" href="index.php?act=add">Thêm Sản Phẩm</a>
+
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
@@ -84,8 +89,9 @@
                         <div class="collapse" id="collapseCategories" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="index.php?act=listdm" data-bs-target="#pagesCollapseAuth"
-                                    aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                <a class="nav-link collapsed" href="index.php?act=listdm"
+                                    data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                    aria-controls="pagesCollapseAuth">
                                     Danh Sách Danh Mục
                                 </a>
                                 <a class="nav-link collapsed" href="index.php?act=add_category" data-bs-target="#pagesCollapseError"

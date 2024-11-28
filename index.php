@@ -25,6 +25,7 @@ if(isset($_GET['act'])){
                 $checkuser = checkuser($email,$pass);
                 if(is_array($checkuser)){
                     $_SESSION['user'] = $checkuser;
+                    $_SESSION['role'] = $checkuser['role'];
                     header('location: index.php');  
                 }
                 else{
@@ -57,7 +58,7 @@ if(isset($_GET['act'])){
                 $id = $_POST['id'];
                 update_taikhoan($id,$user,$pass,$email,$address,$tel);
                 $_SESSION['user'] = checkuser($email,$pass);
-                header('location: index.php?act=edit_taikhoan');  
+                header('location: index.php?act=login');  
                 }
                 include "view/taikhoan/edit_taikhoan.php";
                 break;

@@ -184,7 +184,7 @@
     <section class="bg0 p-t-23 p-b-140">
         <div class="container">
             <div class="p-b-10">
-                <h3 class="ltext-103 cl5">
+                <h3 class="ltext-103 cl5 ">
                     Sản phẩm dành cho bạn
                 </h3>
             </div>
@@ -990,7 +990,7 @@
 
             <!-- Load more -->
             <div class="flex-c-m flex-w w-full p-t-45">
-                <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                <a href="index.php?act=shop" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                     Xem thêm
                 </a>
             </div>
