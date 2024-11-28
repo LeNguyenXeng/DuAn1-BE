@@ -1,7 +1,11 @@
 <?php
     session_start();
     include "model/taikhoan.php";
+    include "model/sanpham.php";
     include "model/pdo.php";
+    include "global.php";
+
+$spnew = loadall_sanpham_home();
 
 if(isset($_GET['act'])){
     $act = $_GET['act'];
