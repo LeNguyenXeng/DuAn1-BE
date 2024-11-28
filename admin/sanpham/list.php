@@ -22,45 +22,38 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">ID DANH MỤC</th>
                                 <th scope="col">MÃ LOẠI</th>
                                 <th scope="col">TÊN SẢN PHẨM</th>
                                 <th scope="col">HÌNH ẢNH</th>
                                 <th scope="col">GIÁ</th>
                                 <th scope="col">MÔ TẢ</th>
                                 <th scope="col">LƯỢT XEM</th>
-                                <th scope="col">ACTION</th>
+                                <th scope="col">HÀNH ĐỘNG</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                          $listsanpham  = loadall_sanpham();
-                            foreach ($listsanpham as $sanpham){
+                            foreach($listsanpham as $sanpham){
                                 extract($sanpham);
-                                $suasp="index.php?act=suasp&id=".$id;
-                                $xoasp="index.php?act=xoasp&id=".$id;
-                                $hinhpath = "../upload/" . $img;
-                                if (is_file($hinhpath)) {
-                                $hinh = '<img src="' . $hinhpath . '" height="100">';
-                                } else {
-                                $hinh = "no photo";
+                                $suasp = "index.php?act=suasp&id=".$id;
+                                $xoasp = "index.php?act=xoasp&id=".$id;
+                                $hinhanhsppath = "../upload/".$img;
+                                if(is_file($hinhanhsppath)){
+                                    $hinh = "<img src='".$hinhanhsppath."' height='80'>";
                                 }
-                                
-
-                                echo'  <tr>
-                                <td>'.$iddm.'</td>
-                                <td>'.$id.'</td>
-                                <td>'.$tensp.'</td>
-                                <td>'.$hinh.'</td>
-                                <td>'.$price.'</td>
-                                <td>'.$mota.'</td>
-                                <td>'.$luotxem.'</td>
-                               
-                                <td> 
-                                    <a href="'.$suasp.'"><input type="button" class="btn btn-outline-danger" name="" value="Sửa"></a>
-                                    <a onclick="return confirm(\'Bạn có muốn xoá không?\')" href="'.$xoasp.'"><input type="button" class="btn btn-outline-primary" name="" value="Xóa"></a>
-                                </td>
-                            </tr>';
+                                else{
+                                    $hinh = "No Photos";
+                                }
+                                echo '<tr>
+                                    <td>'.$id.'</td>
+                                    <td>'.$tensp.'</td>
+                                    <td>'.$hinh.'</td>
+                                    <td>'.number_format($price, 0, '', ',').'₫</td>
+                                    <td>'.$mota.'</td>
+                                    <td>'.$luotxem.'</td>
+                                    <td><a href="'.$suasp.'"><input class="btn btn-outline-danger" type="button" name="" value="Sửa"></a>
+                                       <a onclick="return confirm(\'Bạn có muốn xoá không?\')" href="'.$xoasp.'"><input class="btn btn-outline-primary" type="button" name="" value="Xóa"></a></td>
+                                </tr>';
                             }
                         ?>
                         </tbody>

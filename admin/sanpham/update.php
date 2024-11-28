@@ -1,22 +1,27 @@
 <?php
-    include "header.php";
+    if(is_array($sanpham)){
+        extract($sanpham);
+    }
+    if (isset($filename) && $filename !== null) {
+        if (is_file($filename)) {
+            $hinh = "<img src='".$hinhanhsppath."' height='80'>";
+
+        } else {
+            $hinh = "No Photos";
+
+        }
+    } else {
+        // Xử lý khi $filename là null
+        echo "Tên file không hợp lệ.";
+    }
 ?>
 <?php
-if (is_array($sp)) {
-    extract($sp);
-}
-$hinhpath = "../upload/" . $img;
-                        if (is_file($hinhpath)) {
-                          $hinh = '<img src="' . $hinhpath . '" height="100">';
-                        } else {
-                          $hinh = "no photo";
-                        }
-
+include "header.php";
 ?>
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">SẢN PHẨM<nav></nav>
+            <h1 class="">SẢN PHẨM<nav></nav>
             </h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
@@ -28,42 +33,45 @@ $hinhpath = "../upload/" . $img;
                     Bảng Sản Phẩm
                 </div>
                 <div class="card-body">
-                    <form action="index.php?act=updatesp&id=<?=$id?>" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="id" value="<?= $id ?>">
-                        <select class="form-select" aria-label="Default select example" name="iddm">
-                            <option selected>Tất Cả</option>
-                            <?php foreach ($listdanhmuc as $danhmuc) {
-                            extract($danhmuc);
-                            if($id==$iddm) $s="selected"; else $s="";
-                             echo '<option value="' . $id . '" '.$s.'>' . $name . '</option>';
-                         }
-                        ?>
-                        </select>
-
-                        <div class="form-group mt-2">
-                            <label for="exampleInputEmail1">Tên Sản Phẩm</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                placeholder="Nhập tên sản phẩm" name="tensp" value="<?= $tensp ?>">
+                    <form action="index.php?act=updatesp" method="POST" enctype="multipart/form-data">
+                        <!-- <div class="mb-3">
+                            <label for="exampleInputEmail1" class="tkmk form-label">Tên danh mục</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="tkmk form-label">Tên sản phẩm</label>
+                            <input name="tensp" type="text" class="inputform form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder=" Tên sản phẩm" required
+                                value="<?php echo $tensp ?>">
                         </div>
 
-                        <div class="form-group mt-2">
-                            <label for="exampleInputEmail1">Giá</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Nhập giá sản phẩm" name="giasp"
-                                value="<?= $price ?>">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="tkmk form-label">Giá</label>
+                            <input name="giasp" type="number" class="inputform form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder=" Giá" required value="<?php echo $price ?>">
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="exampleInputEmail1">Hình Ảnh</label>
-                            <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                placeholder="Nhập giá sản phẩm" name="hinh" value="<?= $hinh ?>">
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="tkmk form-label">Hình ảnh</label>
+                            <input name="hinh" type="file" class="inputform form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder=" Hình ảnh">
+                            <?php echo $img?>
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="exampleInputEmail1">Mô Tả</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"
-                                value="<?= $mota ?>" name="mota"></textarea>
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="tkmk form-label">Mô tả</label>
+                            <textarea name="mota" class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                required><?php echo $mota ?></textarea>
                         </div>
-                      <button >Cập Nhật</button>
-                        <!-- <input onclick="return confirm('Ban co muon cap nhat khong?')" type="button" class="btn mt-2 btn btn-dark" name="capnhat" value="Cập Nhật"> -->
+                        <div class="button">
+                            <input type="hidden" name="id" value="<?php echo $id ?>">
+                            <input name="capnhat" type="submit" value="Cập Nhật" class="btn btn-dark"></input>
+                        </div>
                     </form>
                 </div>
             </div>

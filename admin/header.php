@@ -68,7 +68,7 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="index.php?act=listsp">Danh Sách Sản Phẩm</a>
-                                <a class="nav-link" href="index.php?act=add">Thêm Sản Phẩm</a>
+                                <a class="nav-link" href="index.php?act=addsp">Thêm Sản Phẩm</a>
 
                             </nav>
                         </div>
