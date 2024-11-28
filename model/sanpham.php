@@ -23,7 +23,11 @@
         
         else
             $sql = "UPDATE sanpham SET tensp='".$tensp."',price='".$giasp."',mota='".$mota."' WHERE id=".$id;
-        
         pdo_execute($sql);
+    }
+    function loadall_sanpham_home(){
+        $sql = "SELECT * FROM sanpham WHERE 1 order by id desc limit 0,16";
+        $listsanpham = pdo_query($sql);
+        return $listsanpham;
     }
 ?>
