@@ -17,23 +17,17 @@ include "header.php";
                 </div>
                 <div class="card-body">
                     <form action="index.php?act=addsp" method="POST" enctype="multipart/form-data">
-
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="tkmk form-label">Tên danh mục</label>
-                        <select name="iddm" class="inputform form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            <option value="">-- Chọn danh mục --</option>
-                            <?php
-                            foreach ($listdanhmuc as $danhmuc) {
-                                extract($danhmuc);
-                                echo '<option value="' . $id . '">' . $name . '</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-
-
-
-
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="tkmk form-label">Danh Mục</label>
+                            <select name="iddm" class="form-select" aria-label="Default select example">
+                                <?php
+                                     foreach ($listdanhmuc as $danhmuc) {
+                                        extract($danhmuc);
+                                        echo '<option value="'.$id.'">'.$name.'</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="tkmk form-label">Tên sản phẩm</label>
                             <input name="tensp" type="text" class="inputform form-control" id="exampleInputEmail1"
@@ -49,12 +43,13 @@ include "header.php";
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="tkmk form-label">Hình ảnh</label>
                             <input name="hinh" type="file" class="inputform form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder=" Hình ảnh" >
+                                aria-describedby="emailHelp" placeholder=" Hình ảnh">
                         </div>
 
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="tkmk form-label">Mô tả</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" required></textarea>
+                            <textarea name="mota" class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                required></textarea>
                         </div>
                         <div class="button">
                             <input name="themmoi" type="submit" value="Thêm" class="btn btn-dark"></input>
