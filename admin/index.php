@@ -4,6 +4,7 @@ session_start();
 include "header.php";
 include "../model/taikhoan.php";
 include "../model/sanpham.php";
+include "../model/danhmuc.php";
 include "../model/pdo.php";
 if(!isset($_SESSION['user'])){
     header('location: login.php');
@@ -22,9 +23,10 @@ if(isset($_GET['act'])){
         case 'home':
             include "home.php";
         break;
-        case 'login':
-            include "login.php";
-        break;
+        case 'logout':
+            session_unset();
+            header('location: ../index.php');
+            break;
         case 'listdm':
             include "danhmuc/listdm.php";
         break;
@@ -94,15 +96,24 @@ if(isset($_GET['act'])){
                       } else {
                         // echo "Sorry, there was an error uploading your file.";
                       }
-                      insert_sanpham($tensp,$giasp,$hinhanhsp,$mota,$iddm);
-                    header('location:index.php?act=listsp');
+                      insert_sanpham($tensp,$giasp,$hinh,$mota,$iddm);
+                        header('location:index.php?act=listsp');
                 }
                 $listdanhmuc = loadall_danhmuc();
                 include "sanpham/addsp.php";
                 break;
 
             case 'listsp':
-                $listsanpham = loadall_sanpham();
+                if(isset($_POST['listok'])&&($_POST['listok'])){
+                    $kyw = $_POST['kyw'];
+                    $iddm = $_POST['iddm'];
+                }
+                else{
+                    $kyw = '';
+                    $iddm = 0;
+                }
+                $listdanhmuc = loadall_danhmuc();
+                $listsanpham = loadall_sanpham($kyw, $iddm);
                 include "sanpham/list.php";
                 break;
             case 'xoasp':
@@ -112,33 +123,33 @@ if(isset($_GET['act'])){
                 $listsanpham = loadall_sanpham("",0);
                 include "sanpham/list.php";
                 break;
-            case 'suasp':
-                if(isset($_GET['id'])&&($_GET['id']>0)){
-                    $sanpham =  loadone_sanpham($_GET['id']);
-                }
-                include "sanpham/update.php";
-                break;
-            case 'updatesp':
-                if (isset($_POST['capnhat']) && ($_POST['capnhat'])) {
-                    $id = $_POST['id'];
-                    $tensp = $_POST['tensp'];
-                    $giasp = $_POST['giasp'];
-                    $mota = $_POST['mota'];
-                    $hinh = $_FILES['hinh']['name'];
-                    $target_dir = "../upload/";
-                    $target_file = $target_dir . basename($_FILES["hinh"]["name"]);
-                    if (move_uploaded_file($_FILES['hinh']['tmp_name'], $target_file)) {
-                        // echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been upload.";
-                    } else {
-                        // echo "Sorry, there was an error uploading ypur file.";
+                case 'suasp':
+                    if(isset($_GET['id'])&&($_GET['id']>0)){
+                        $sanpham =  loadone_sanpham($_GET['id']);
                     }
-                    update_sanpham($id,$tensp,$giasp,$mota,$hinh);
-                    header("location: index.php?act=listsp");
-    
-                    $thongbao = "Cập nhật thất bại!";
-                }
-                include "sanpham/list.php";
-                break;
+                    include "sanpham/update.php";
+                    break;
+                case 'updatesp':
+                    if (isset($_POST['capnhat']) && ($_POST['capnhat'])) {
+                        $id = $_POST['id'];
+                        $tensp = $_POST['tensp'];
+                        $giasp = $_POST['giasp'];
+                        $mota = $_POST['mota'];
+                        $hinh = $_FILES['hinh']['name'];
+                        $target_dir = "../upload/";
+                        $target_file = $target_dir . basename($_FILES["hinh"]["name"]);
+                        if (move_uploaded_file($_FILES['hinh']['tmp_name'], $target_file)) {
+                            // echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been upload.";
+                        } else {
+                            // echo "Sorry, there was an error uploading ypur file.";
+                        }
+                        update_sanpham($id,$tensp,$giasp,$mota,$hinh);
+                        header("location: index.php?act=listsp");
+        
+                        $thongbao = "Cập nhật thất bại!";
+                    }
+                    include "sanpham/list.php";
+                    break;
             case 'adddm':
                 //kiểm tra xen người dùng có click vào nút add hay không?
                 if (isset($_POST['submit']) && ($_POST['submit'])) {
@@ -179,6 +190,10 @@ if(isset($_GET['act'])){
                     $listdanhmuc = loadall_danhmuc();
                     include "danhmuc/list.php";
                     break;
+            //Bình Luận
+            case 'binhluan':
+                include "binhluan/comments.php";
+                break;
         
         default:
             include "home.php";

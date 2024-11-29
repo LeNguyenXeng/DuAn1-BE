@@ -7,8 +7,15 @@
         $sql = "DELETE from sanpham WHERE id=".$id;
         pdo_execute($sql);
     }
-    function loadall_sanpham(){
-        $sql = "SELECT * FROM sanpham order by id desc";
+    function loadall_sanpham($kyw,$iddm=0){
+        $sql = "SELECT * FROM sanpham where 1";
+        if($kyw!=""){
+            $sql.=" and tensp like '%".$kyw."%'";
+        }
+        if($iddm>0){
+            $sql.=" and iddm ='".$iddm."'";
+        }
+        $sql.=" ORDER by id desc";
         $listsanpham = pdo_query($sql);
         return $listsanpham;
     }
@@ -18,11 +25,13 @@
         return $sp;
     }
     function update_sanpham($id,$tensp,$giasp,$mota,$hinh){
-        if($hinh!="")
-            $sql = "UPDATE sanpham SET tensp='".$tensp."',price='".$giasp."',mota='".$mota."',img='".$hinh."' WHERE id=".$id;
-        
-        else
-            $sql = "UPDATE sanpham SET tensp='".$tensp."',price='".$giasp."',mota='".$mota."' WHERE id=".$id;
+        if($hinh!=""){
+            $sql = "UPDATE sanpham set tensp='".$tensp."', price='".$giasp."', mota='".$mota."', img='".$hinh."' WHERE id=".$id;
+        }
+        else{
+            $sql = "UPDATE sanpham set tensp='".$tensp."', price='".$giasp."', mota='".$mota."' WHERE id=".$id;
+
+        }
         pdo_execute($sql);
     }
     function loadall_sanpham_home(){

@@ -429,45 +429,46 @@
 
             <div class="row isotope-grid">
                 <?php
-                    foreach($spnew as $sp){
-                        extract($sp);
-                        $hinh = $img_path.$img;
-                        $format = number_format($price, 0, ',', '.') . '₫';
-                        echo '<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-                                        <div class="block2">
-                                            <div class="block2-pic hov-img0">
-                                                <img src="'.$hinh.'">
-                                                <a href="index.php?act=product"
-                                                    class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
-                                                    Xem Chi Tiết
-                                                </a>
-                                            </div>
+foreach($spnew as $sp){
+    extract($sp);
+    $hinh = $img_path.$img;
+    $format = number_format($price, 0, ',', '.') . '₫';
+    echo '<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+                <div class="block2">
+                    <div class="block2-pic hov-img0">
+                        <img src="'.$hinh.'">
+                        <a href="index.php?act=product&idsp=' . $id . '" 
+                            class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
+                            Xem Chi Tiết
+                        </a>
+                    </div>
 
-                                            <div class="block2-txt flex-w flex-t p-t-14">
-                                                <div class="block2-txt-child1 flex-col-l ">
-                                                    <a href="index.php?act=product" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                        '.$tensp.'
-                                                    </a>
+                    <div class="block2-txt flex-w flex-t p-t-14">
+                        <div class="block2-txt-child1 flex-col-l ">
+                            <a href="index.php?act=product&idsp=' . $id . '" 
+                                class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                '.$tensp.'
+                            </a>
 
-                                                    <span class="stext-105 cl3">
-                                                        '.$format.'
-                                                    </span>
-                                                </div>
+                            <span class="stext-105 cl3">
+                                '.$format.'
+                            </span>
+                        </div>
 
-                                                <div class="block2-txt-child2 flex-r p-t-3">
-                                                    <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                        <img class="icon-heart1 dis-block trans-04"
-                                                            src="./resources/assets/img/icons/icon-heart-01.png" alt="ICON">
-                                                        <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                                            src="./resources/assets/img/icons/icon-heart-02.png" alt="ICON">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                    ';
-                    }
-                ?>
+                        <div class="block2-txt-child2 flex-r p-t-3">
+                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                                <img class="icon-heart1 dis-block trans-04"
+                                    src="./resources/assets/img/icons/icon-heart-01.png" alt="ICON">
+                                <img class="icon-heart2 dis-block trans-04 ab-t-l"
+                                    src="./resources/assets/img/icons/icon-heart-02.png" alt="ICON">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+          </div>';
+}
+?>
+
             </div>
     </section>
 
