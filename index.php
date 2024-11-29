@@ -7,7 +7,15 @@ if(isset($_GET['act'])){
     $act = $_GET['act'];
     switch ($act) {
         case 'product':
-            include "view/product-detail.php";
+            if(isset($_GET['idsp'])&&($_GET['idsp'])>0){
+                $id = $_GET['idsp'];
+                $onesp = loadone_sanpham($id);
+                include "view/product-detail.php";
+            }
+            else{
+                include "view/home.php";   
+            }
+
             break;
         case 'shoppingcart':
             include "view/shoppingcart.php";

@@ -1,3 +1,24 @@
+<?php
+session_start();
+ob_start();
+include "../model/pdo.php";
+include "../model/taikhoan.php";
+if(isset($_POST['dangnhap'])&&($_POST['dangnhap'])){
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $checkuser = checkuser($email,$pass);
+    if(is_array($checkuser)){
+        $_SESSION['user'] = $checkuser;
+        $_SESSION['role'] = $checkuser['role'];
+        header('location: index.php');  
+    }
+    else{
+        $thongbao = "Tài khoản không tồn tại";  
+        
+    }
+}
+?>
+
 <!doctype html>
 
 <html lang="en">
@@ -6,7 +27,7 @@
 
     <meta charset="UTF-8">
 
-    <title>CodePen - Animated Login Form using Html &amp; CSS Only</title>
+    <title>Login</title>
 
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
@@ -168,6 +189,7 @@
         font-size: 1.35em;
         letter-spacing: 0.05em;
         cursor: pointer;
+        margin-top: -25px;
     }
 
     input[type="submit"]:active {
@@ -234,31 +256,31 @@
 
                 <h2>Sign In</h2>
 
-                <div class="form">
 
+                <form class="form" action="login.php" method="POST">
                     <div class="inputBox">
 
-                        <input type="text" required> <i>Username</i>
-
-                    </div>
-
-                    <div class="inputBox">
-
-                        <input type="password" required> <i>Password</i>
-
-                    </div>
-
-                    <div class="links"> <a href="#">Forgot Password</a> <a href="#">Signup</a>
+                        <input type="email" name="email" required> <i>Username</i>
 
                     </div>
 
                     <div class="inputBox">
 
-                        <input type="submit" value="Login">
+                        <input type="password" name="pass" required> <i>Password</i>
 
                     </div>
 
-                </div>
+                    <div class="links">
+
+                    </div>
+
+                    <div class="inputBox">
+
+                        <input type="submit" name="dangnhap" value="Login">
+
+                    </div>
+                </form>
+
 
             </div>
 
