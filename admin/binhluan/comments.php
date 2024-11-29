@@ -26,25 +26,30 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý bình luận</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
     </style>
 </head>
+
 <body>
     <h1>Quản lý bình luận</h1>
     <table>
@@ -57,23 +62,25 @@ $result = $conn->query($sql);
             <th>Hành động</th>
         </tr>
         <?php if ($result->num_rows > 0): ?>
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= $row['id_bl'] ?></td>
-                    <td><?= $row['ten_khachhang'] ?></td>
-                    <td><?= $row['email'] ?></td>
-                    <td><?= $row['ten_sp'] ?></td>
-                    <td><?= $row['noidung'] ?></td>
-                    <td>
-                        <a href="delete_comment.php?id=<?= $row['id_bl'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
-                    </td>
-                </tr>
-            <?php endwhile; ?>
+        <?php while ($row = $result->fetch_assoc()): ?>
+        <tr>
+            <td><?= $row['id_bl'] ?></td>
+            <td><?= $row['ten_khachhang'] ?></td>
+            <td><?= $row['email'] ?></td>
+            <td><?= $row['ten_sp'] ?></td>
+            <td><?= $row['noidung'] ?></td>
+            <td>
+                <a href="delete_comment.php?id=<?= $row['id_bl'] ?>"
+                    onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+            </td>
+        </tr>
+        <?php endwhile; ?>
         <?php else: ?>
-            <tr>
-                <td colspan="6">Không có bình luận nào.</td>
-            </tr>
+        <tr>
+            <td colspan="6">Không có bình luận nào.</td>
+        </tr>
         <?php endif; ?>
     </table>
 </body>
+
 </html>

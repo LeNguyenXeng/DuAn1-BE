@@ -21,11 +21,12 @@ include "header.php";
                             <label for="exampleInputEmail1" class="tkmk form-label">Danh Mục</label>
                             <select name="iddm" class="form-select" aria-label="Default select example">
                                 <?php
-                                     foreach ($listdanhmuc as $danhmuc) {
-                                        extract($danhmuc);
-                                        echo '<option value="'.$id.'">'.$name.'</option>';
-                                    }
-                                ?>
+                                   foreach ($listdanhmuc as $danhmuc) {
+                                    extract($danhmuc);
+                                    echo '<option value="' . $id . '">' . $name . '</option>';
+                                }                                
+                                    ?>
+
                             </select>
                         </div>
                         <div class="mb-3">
