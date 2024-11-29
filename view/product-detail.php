@@ -4,28 +4,66 @@
 <head>
     <title>Product Detail</title>
     <?php
-    include "view/header.php";
-    // Kết nối đến cơ sở dữ liệu
-    $host = 'localhost';
-    $dbname = 'duan1';
-    $username = 'root';
-    $password = '';
-    try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-        // Truy vấn bình luận của sản phẩm cụ thể
-        $id_sp = 3; // ID sản phẩm bạn muốn lấy bình luận
-        $sql = "SELECT * FROM binh_luan WHERE id_sp = :id_sp";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['id_sp' => $id_sp]);
-    
-        // Lấy tất cả bình luận
-        $binh_luan = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage());
+include "view/header.php";
+
+// Kết nối đến cơ sở dữ liệu
+$host = 'localhost';
+$dbname = 'duan1';
+$username = 'root';
+$password = '';
+
+try {
+    // Thiết lập kết nối PDO
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Gán giá trị mặc định cho các trường không nhập
+    $id_khachhang = 1; // Giá trị mặc định
+    $id_sp = 3; // ID sản phẩm mặc định
+
+    // Kiểm tra nếu form được gửi
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $ten = isset($_POST['name']) ? trim($_POST['name']) : null;
+        $email = isset($_POST['email']) ? trim($_POST['email']) : null;
+        $noidung = isset($_POST['review']) ? trim($_POST['review']) : null;
+
+        // Kiểm tra các trường bắt buộc
+        if (!empty($ten) && !empty($email) && !empty($noidung)) {
+            try {
+                // Thêm bình luận vào cơ sở dữ liệu
+                $sqlInsert = "INSERT INTO binh_luan (id_khachhang, id_sp, ten, email, noidung) 
+                              VALUES (:id_khachhang, :id_sp, :ten, :email, :noidung)";
+                $stmtInsert = $pdo->prepare($sqlInsert);
+                $stmtInsert->execute([
+                    ':id_khachhang' => $id_khachhang,
+                    ':id_sp' => $id_sp,
+                    ':ten' => $ten,
+                    ':email' => $email,
+                    ':noidung' => $noidung,
+                ]);
+
+                // Nếu thành công
+                echo "<script>alert('Bình luận đã được thêm thành công!');</script>";
+            } catch (PDOException $e) {
+                // Báo lỗi khi thêm bình luận
+                echo "<script>alert('Lỗi khi thêm bình luận: " . $e->getMessage() . "');</script>";
+            }
+        } else {
+            echo "<script>alert('Vui lòng nhập đầy đủ họ tên, email và nội dung bình luận.');</script>";
+        }
     }
-    ?>
+
+    // Hiển thị bình luận
+    $sqlSelect = "SELECT * FROM binh_luan WHERE id_sp = :id_sp ORDER BY id_bl DESC";
+    $stmtSelect = $pdo->prepare($sqlSelect);
+    $stmtSelect->execute([':id_sp' => $id_sp]);
+    $binh_luan = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    die("Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage());
+}
+?>
+
     <div class="container" style="margin-top: 60px;">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
             <a href="index.php?act=home" class="stext-109 cl8 hov-cl1 trans-04">
@@ -48,25 +86,42 @@
     <!-- Product Detail -->
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
         <div class="container">
-            <?php
-                extract($onesp);
-            ?>
             <div class="row">
                 <div class="col-md-6 col-lg-7 p-b-30">
-                    <div class="p-l-25 p-lr-0-lg">
+                    <div class="p-l-25 p-r-30 p-lr-0-lg">
                         <div class="wrap-slick3 flex-sb flex-w">
+                            <div class="wrap-slick3-dots"></div>
                             <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
                             <div class="slick3 gallery-lb">
-                                <?php
-                                    $img = $img_path.$img;
-                                ?>
-                                <div class="item-slick3">
+                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-01.jpg">
                                     <div class="wrap-pic-w pos-relative">
-                                        <img src="<?php echo $img ?>" alt="IMG-PRODUCT">
+                                        <img src="./resources/assets/img/product-detail-01.jpg" alt="IMG-PRODUCT">
 
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                            href="<?php echo $img ?>">
+                                            href="./resources/assets/img/product-detail-01.jpg">
+                                            <i class="fa fa-expand"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-02.jpg">
+                                    <div class="wrap-pic-w pos-relative">
+                                        <img src="./resources/assets/img/product-detail-02.jpg" alt="IMG-PRODUCT">
+
+                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                            href="./resources/assets/img/product-detail-02.jpg">
+                                            <i class="fa fa-expand"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-03.jpg">
+                                    <div class="wrap-pic-w pos-relative">
+                                        <img src="./resources/assets/img/product-detail-03.jpg" alt="IMG-PRODUCT">
+
+                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                            href="./resources/assets/img/product-detail-03.jpg">
                                             <i class="fa fa-expand"></i>
                                         </a>
                                     </div>
@@ -79,16 +134,21 @@
                 <div class="col-md-6 col-lg-5 p-b-30">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
                         <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                            <?php echo $tensp ?>
+                            CREW LS JERSEY - RED
                         </h4>
 
                         <span class="mtext-106 cl2">
-                            <?php echo number_format($price, 0, '', ',') . '₫'; ?>
+                            $17,75
                         </span>
 
                         <p style="font-family: Poppins, sans-serif; font-size: 14px; line-height: 1.7;"
                             class=" cl3 p-t-23">
-                            <?php echo $mota ?>
+                            CREW LS JERSEY - Chiếc áo tay dài mới được thiết kế theo phong cách thể thao với điểm nhấn
+                            nằm ở
+                            họa tiết mặt trước, mặt sau và 2 bên tay áo được sử dụng chất liệu in kéo lụa sắc nét. Phần
+                            thân
+                            áo và tay áo được may phối viền nổi bật. Áo sử dụng vải mesh lưới tạo cảm giác thoải mái và
+                            thoáng mát hơn cho bạn khi vận động.
                         </p>
 
                         <!--  -->
@@ -209,9 +269,17 @@
                         <div class="tab-pane fade show active" id="description" role="tabpanel">
                             <div class="how-pos2 p-lr-15-md">
                                 <p class="stext-102 cl6">
-                                    <?php
-                                        echo $mota
-                                    ?>
+                                    ACREW LS JERSEY - Chiếc áo tay dài mới được thiết kế theo phong cách thể thao với
+                                    điểm
+                                    nhấn nằm ở họa tiết mặt trước, mặt sau và 2 bên tay áo được sử dụng chất liệu in kéo
+                                    lụa
+                                    sắc nét. Phần thân áo và tay áo được may phối viền nổi bật. Áo sử dụng vải mesh lưới
+                                    tạo
+                                    cảm giác thoải mái và thoáng mát hơn cho bạn khi vận động. <br> <br>
+
+                                    Áo Jersey SWE vẫn được sử dụng POLYESTER 100%, định lượng 210gsm, thiết kế form áo
+                                    LS
+                                    JERSEY nên chất lượng các bạn có thể hoàn toàn yên tâm với sản phẩm nhà SWE.
                             </div>
                         </div>
 
@@ -291,7 +359,7 @@
                                         </div>
 
                                         <!-- Add review -->
-                    <form class="w-full" id="commentForm">
+                    <form class="w-full" id="commentForm" method="POST">
                             <h5 class="mtext-108 cl2 p-b-7">Thêm đánh giá của bạn</h5>
 
                             <p class="stext-102 cl6">Your email address will not be published. Required fields are marked *</p> <br>
@@ -634,59 +702,4 @@
     <?php
     include "view/footer.php";
 ?>
-<script>
-    document.getElementById('commentForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Ngăn form submit mặc định
 
-        // Lấy giá trị từ các trường
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const review = document.getElementById('review').value.trim();
-
-        let hasError = false;
-
-        // Kiểm tra các trường
-        if (!name) {
-            alert('Vui lòng nhập họ tên.');
-            hasError = true;
-        }
-        if (!email || !validateEmail(email)) {
-            alert('Vui lòng nhập email hợp lệ.');
-            hasError = true;
-        }
-        if (!review) {
-            alert('Vui lòng nhập bình luận.');
-            hasError = true;
-        }
-
-        if (!hasError) {
-            // Nếu không có lỗi
-            alert('Đã thêm bình luận thành công!');
-            // Gửi dữ liệu qua PHP bằng Fetch API
-            submitComment(name, email, review);
-        }
-    });
-
-    // Hàm kiểm tra định dạng email
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-
-    // Hàm gửi dữ liệu qua PHP
-    async function submitComment(name, email, review) {
-        const response = await fetch('submit_comment.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, review }),
-        });
-
-        if (response.ok) {
-            location.reload(); // Load lại trang sau khi gửi thành công
-        } else {
-            alert('Đã xảy ra lỗi khi gửi bình luận.');
-        }
-    }
-</script>
