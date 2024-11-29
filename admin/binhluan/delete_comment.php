@@ -22,5 +22,5 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-header("Location: comments.php");
+header("Location: ../index.php?act=binhluan");
 ?>

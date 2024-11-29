@@ -4,7 +4,64 @@
 <head>
     <title>Product Detail</title>
     <?php
-    include "view/header.php";
+include "view/header.php";
+
+// Kết nối đến cơ sở dữ liệu
+$host = 'localhost';
+$dbname = 'duan1';
+$username = 'root';
+$password = '';
+
+try {
+    // Thiết lập kết nối PDO
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Gán giá trị mặc định cho các trường không nhập
+    $id_khachhang = 1; // Giá trị mặc định
+    $id_sp = 3; // ID sản phẩm mặc định
+
+    // Kiểm tra nếu form được gửi
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $ten = isset($_POST['name']) ? trim($_POST['name']) : null;
+        $email = isset($_POST['email']) ? trim($_POST['email']) : null;
+        $noidung = isset($_POST['review']) ? trim($_POST['review']) : null;
+
+        // Kiểm tra các trường bắt buộc
+        if (!empty($ten) && !empty($email) && !empty($noidung)) {
+            try {
+                // Thêm bình luận vào cơ sở dữ liệu
+                $sqlInsert = "INSERT INTO binh_luan (id_khachhang, id_sp, ten, email, noidung) 
+                              VALUES (:id_khachhang, :id_sp, :ten, :email, :noidung)";
+                $stmtInsert = $pdo->prepare($sqlInsert);
+                $stmtInsert->execute([
+                    ':id_khachhang' => $id_khachhang,
+                    ':id_sp' => $id_sp,
+                    ':ten' => $ten,
+                    ':email' => $email,
+                    ':noidung' => $noidung,
+                ]);
+
+                // Nếu thành công
+                echo "<script>alert('Bình luận đã được thêm thành công!');</script>";
+            } catch (PDOException $e) {
+                // Báo lỗi khi thêm bình luận
+                echo "<script>alert('Lỗi khi thêm bình luận: " . $e->getMessage() . "');</script>";
+            }
+        } else {
+            echo "<script>alert('Vui lòng nhập đầy đủ họ tên, email và nội dung bình luận.');</script>";
+        }
+    }
+
+    // Hiển thị bình luận
+    $sqlSelect = "SELECT * FROM binh_luan WHERE id_sp = :id_sp ORDER BY id_bl DESC";
+    $stmtSelect = $pdo->prepare($sqlSelect);
+    $stmtSelect->execute([':id_sp' => $id_sp]);
+    $binh_luan = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    die("Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage());
+}
 ?>
 
     <div class="container" style="margin-top: 60px;">
@@ -29,25 +86,42 @@
     <!-- Product Detail -->
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
         <div class="container">
-            <?php
-                extract($onesp);
-            ?>
             <div class="row">
                 <div class="col-md-6 col-lg-7 p-b-30">
-                    <div class="p-l-25 p-lr-0-lg">
+                    <div class="p-l-25 p-r-30 p-lr-0-lg">
                         <div class="wrap-slick3 flex-sb flex-w">
+                            <div class="wrap-slick3-dots"></div>
                             <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
                             <div class="slick3 gallery-lb">
-                                <?php
-                                    $img = $img_path.$img;
-                                ?>
-                                <div class="item-slick3">
+                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-01.jpg">
                                     <div class="wrap-pic-w pos-relative">
-                                        <img src="<?php echo $img ?>" alt="IMG-PRODUCT">
+                                        <img src="./resources/assets/img/product-detail-01.jpg" alt="IMG-PRODUCT">
 
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                            href="<?php echo $img ?>">
+                                            href="./resources/assets/img/product-detail-01.jpg">
+                                            <i class="fa fa-expand"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-02.jpg">
+                                    <div class="wrap-pic-w pos-relative">
+                                        <img src="./resources/assets/img/product-detail-02.jpg" alt="IMG-PRODUCT">
+
+                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                            href="./resources/assets/img/product-detail-02.jpg">
+                                            <i class="fa fa-expand"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-03.jpg">
+                                    <div class="wrap-pic-w pos-relative">
+                                        <img src="./resources/assets/img/product-detail-03.jpg" alt="IMG-PRODUCT">
+
+                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                            href="./resources/assets/img/product-detail-03.jpg">
                                             <i class="fa fa-expand"></i>
                                         </a>
                                     </div>
@@ -60,16 +134,21 @@
                 <div class="col-md-6 col-lg-5 p-b-30">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
                         <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                            <?php echo $tensp ?>
+                            CREW LS JERSEY - RED
                         </h4>
 
                         <span class="mtext-106 cl2">
-                            <?php echo number_format($price, 0, '', ',') . '₫'; ?>
+                            $17,75
                         </span>
 
                         <p style="font-family: Poppins, sans-serif; font-size: 14px; line-height: 1.7;"
                             class=" cl3 p-t-23">
-                            <?php echo $mota ?>
+                            CREW LS JERSEY - Chiếc áo tay dài mới được thiết kế theo phong cách thể thao với điểm nhấn
+                            nằm ở
+                            họa tiết mặt trước, mặt sau và 2 bên tay áo được sử dụng chất liệu in kéo lụa sắc nét. Phần
+                            thân
+                            áo và tay áo được may phối viền nổi bật. Áo sử dụng vải mesh lưới tạo cảm giác thoải mái và
+                            thoáng mát hơn cho bạn khi vận động.
                         </p>
 
                         <!--  -->
@@ -190,9 +269,17 @@
                         <div class="tab-pane fade show active" id="description" role="tabpanel">
                             <div class="how-pos2 p-lr-15-md">
                                 <p class="stext-102 cl6">
-                                    <?php
-                                        echo $mota
-                                    ?>
+                                    ACREW LS JERSEY - Chiếc áo tay dài mới được thiết kế theo phong cách thể thao với
+                                    điểm
+                                    nhấn nằm ở họa tiết mặt trước, mặt sau và 2 bên tay áo được sử dụng chất liệu in kéo
+                                    lụa
+                                    sắc nét. Phần thân áo và tay áo được may phối viền nổi bật. Áo sử dụng vải mesh lưới
+                                    tạo
+                                    cảm giác thoải mái và thoáng mát hơn cho bạn khi vận động. <br> <br>
+
+                                    Áo Jersey SWE vẫn được sử dụng POLYESTER 100%, định lượng 210gsm, thiết kế form áo
+                                    LS
+                                    JERSEY nên chất lượng các bạn có thể hoàn toàn yên tâm với sản phẩm nhà SWE.
                             </div>
                         </div>
 
@@ -241,85 +328,63 @@
                                     <div class="p-b-30 m-lr-15-sm">
                                         <!-- Review -->
                                         <div class="flex-w flex-t p-b-68">
-                                            <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                            <h3>Bình luận sản phẩm</h3> <br>
+                                            
+                                            <!-- <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
                                                 <img src="./resources/assets/img/avatar-01.jpg" alt="AVATAR">
-                                            </div>
+                                            </div> -->
 
                                             <div class="size-207">
+                                                <?php foreach($binh_luan as $comment): ?>
+
                                                 <div class="flex-w flex-sb-m p-b-17">
                                                     <span class="mtext-107 cl2 p-r-20">
-                                                        Xèng
+                                                    <?php echo htmlspecialchars($comment['ten']); ?>
                                                     </span>
 
-                                                    <span class="fs-18 cl11">
+                                                    <!-- <span class="fs-18 cl11">
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star"></i>
                                                         <i class="zmdi zmdi-star-half"></i>
-                                                    </span>
+                                                    </span> -->
                                                 </div>
 
                                                 <p class="stext-102 cl6">
-                                                    Sản phẩm đẹp, chất liệu áo tốt. Cho shop 5 sao, lần sau sẽ ủng hộ
-                                                    tiếp.
-                                                    Chất lượng là số 1!!
+                                                <?php echo nl2br(htmlspecialchars($comment['noidung'])); ?>
                                                 </p>
+                                                <?php endforeach; ?>
                                             </div>
                                         </div>
 
                                         <!-- Add review -->
-                                        <form class="w-full">
-                                            <h5 class="mtext-108 cl2 p-b-7">
-                                                Thêm đánh giá của bạn
-                                            </h5>
+                    <form class="w-full" id="commentForm" method="POST">
+                            <h5 class="mtext-108 cl2 p-b-7">Thêm đánh giá của bạn</h5>
 
-                                            <p class="stext-102 cl6">
-                                                Your email address will not be published. Required fields are marked *
-                                            </p>
+                            <p class="stext-102 cl6">Your email address will not be published. Required fields are marked *</p> <br>
+                            <div class="row p-b-25">
+                                <div class="col-12 p-b-5">
+                                    <label class="stext-102 cl3" for="review">Bình luận</label>
+                                    <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review" required></textarea>
+                                </div>
 
-                                            <div class="flex-w flex-m p-t-50 p-b-23">
-                                                <span class="stext-102 cl3 m-r-16">
-                                                    Bình chọn
-                                                </span>
+                                <div class="col-sm-6">
+                                    <label class="stext-102 cl3" for="name" style="margin-top: 10px;">Họ Tên</label>
+                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name" required>
+                                </div>
 
-                                                <span class="wrap-rating fs-18 cl11 pointer" style="margin-top: -9px;">
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <i class="item-rating pointer zmdi zmdi-star-outline"></i>
-                                                    <input class="dis-none" type="number" name="rating">
-                                                </span>
-                                            </div>
+                                <div class="col-sm-6">
+                                    <label class="stext-102 cl3" for="email" style="margin-top: 10px;">Email</label>
+                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="email" name="email" required>
+                                </div>
+                            </div>
 
-                                            <div class="row p-b-25">
-                                                <div class="col-12 p-b-5">
-                                                    <label class="stext-102 cl3" for="review">Bình luận</label>
-                                                    <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
-                                                        id="review" name="review"></textarea>
-                                                </div>
+                            <button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+                                Bình luận
+                            </button>
+                    </form>
 
-                                                <div class="col-sm-6">
-                                                    <label class="stext-102 cl3" for="name" style="margin-top: 10px;">Họ
-                                                        Tên</label>
-                                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name"
-                                                        type="text" name="name">
-                                                </div>
-
-                                                <div class="col-sm-6">
-                                                    <label class="stext-102 cl3" for="email"
-                                                        style="margin-top: 10px;">Email</label>
-                                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
-                                                        type="text" name="email">
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                                Bình luận
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -348,7 +413,7 @@
                             <div class="block2-pic hov-img0">
                                 <img src="./resources/assets/img/product-01.jpg" alt="IMG-PRODUCT">
 
-                                <a href="index.php?act=product"
+                                <a href=""
                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     Xem Chi Tiết
                                 </a>
@@ -356,7 +421,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         CREW LS JERSEY - RED
                                     </a>
@@ -384,7 +449,7 @@
                             <div class="block2-pic hov-img0">
                                 <img src="./resources/assets/img/product-02.jpg" alt="IMG-PRODUCT">
 
-                                <a href="index.php?act=product"
+                                <a href="#"
                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     Xem Chi Tiết
                                 </a>
@@ -392,7 +457,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         CREW LS JERSEY - BLACK
                                     </a>
@@ -428,7 +493,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         EDGE WASHED JEANS - BLUE
                                     </a>
@@ -464,7 +529,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         EDGE WASHED JEANS - LIGHT BLUE
                                     </a>
@@ -500,7 +565,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         NIGHTSTAR BACKPACK
                                     </a>
@@ -536,7 +601,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         S LETTER CAP - BLUE
                                     </a>
@@ -572,7 +637,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         E LETTER CAP - BEIGE
                                     </a>
@@ -608,7 +673,7 @@
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="index.php?act=product"
+                                    <a href="product-detail.html"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         KA STRIPED TOTE - PINK
                                     </a>
@@ -637,3 +702,4 @@
     <?php
     include "view/footer.php";
 ?>
+

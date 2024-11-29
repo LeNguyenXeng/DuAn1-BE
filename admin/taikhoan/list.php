@@ -20,13 +20,13 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">TÊN</th>
-                                <th scope="col">MẬT KHẨU</th>
+                                <th scope="col">USERNAME</th>
+                                <th scope="col">PASSWORD</th>
                                 <th scope="col">EMAIL</th>
-                                <th scope="col">ĐỊA CHỈ</th>
-                                <th scope="col">SỐ ĐIỆN THOẠI</th>
-                                <th scope="col">VAI TRÒ</th>
-                                <th scope="col">HÀNH ĐỘNG</th>
+                                <th scope="col">ADDRESS</th>
+                                <th scope="col">PHONE NUMBER</th>
+                                <th scope="col">ROLE</th>
+                                <th scope="col">ACTION</th>
                             </tr>
                         </thead>
                         <tbody>

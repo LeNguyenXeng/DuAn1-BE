@@ -1,11 +1,7 @@
 <?php
     session_start();
     include "model/taikhoan.php";
-    include "model/sanpham.php";
     include "model/pdo.php";
-    include "global.php";
-
-$spnew = loadall_sanpham_home();
 
 if(isset($_GET['act'])){
     $act = $_GET['act'];
@@ -37,8 +33,9 @@ if(isset($_GET['act'])){
                 $checkuser = checkuser($email,$pass);
                 if(is_array($checkuser)){
                     $_SESSION['user'] = $checkuser;
-                    $_SESSION['role'] = $checkuser['role'];
                     header('location: index.php');  
+
+
                 }
                 else{
                     $thongbao = "Tài khoản không tồn tại";  
@@ -70,24 +67,24 @@ if(isset($_GET['act'])){
                 $id = $_POST['id'];
                 update_taikhoan($id,$user,$pass,$email,$address,$tel);
                 $_SESSION['user'] = checkuser($email,$pass);
-                header('location: index.php?act=login');  
+                header('location: index.php?act=edit_taikhoan');  
                 }
                 include "view/taikhoan/edit_taikhoan.php";
                 break;
 
-        case 'quenmk':
-            if(isset($_POST['quenmk'])&&($_POST['quenmk'])){
-                $email = $_POST['email'];
-                $checkemail = checkemail($email);
-                if(is_array($checkemail)){
-                    $thongbao = "Mật khẩu của bạn là: ".$checkemail['pass'];
+            case 'quenmk':
+                if(isset($_POST['quenmk'])&&($_POST['quenmk'])){
+                    $email = $_POST['email'];
+                    $checkemail = checkemail($email);
+                    if(is_array($checkemail)){
+                        $thongbao = "Mật khẩu của bạn là: ".$checkemail['pass'];
+                    }
+                    else{
+                        $thongbao = "Email này không tồn tại";
+                    }
                 }
-                else{
-                    $thongbao = "Email này không tồn tại";
-                }
-                }
-            include "view/taikhoan/quenmk.php";
-            break;
+                include "view/taikhoan/quenmk.php";
+                break;
         case 'shop':
             include "view/shop.php";
             break;

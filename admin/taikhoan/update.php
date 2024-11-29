@@ -33,16 +33,9 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="tkmk form-label">Mật Khẩu</label>
-                            <input name="pass" type="password" class="inputform form-control" id="myInput"
+                            <input name="pass" type="password" class="inputform form-control" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder=" Mật Khẩu"
                                 value="<?php if (isset($pass) && ($pass != "")) echo $pass; ?>">
-                            <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
-                                    onclick="myFunction()">
-                                <label class="form-check-label" for="flexCheckChecked">
-                                    Hiển thị mật khẩu
-                                </label>
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="tkmk form-label">Địa Chỉ</label>
@@ -63,27 +56,12 @@
                                 value="<?php if (isset($role) && ($role != "")) echo $role; ?>">
                         </div>
                         <div class="button">
-                            <input type="hidden" name="id" value="<?php if(isset($id)&&($id!="")) echo $id ;?>">
+                            <input type="hidden" value="<?php if (isset($id) && ($id != "")) echo $id; ?>">
                             <input name="capnhat" type="submit" value="Cập Nhật" class="btn btn-dark"></input>
                         </div>
                     </form>
-                    <?php
-                    if(isset($thongbao)&&($thongbao!="")){
-                        echo $thongbao;
-                    }
-                    ?>
                 </div>
             </div>
         </div>
     </main>
 </div>
-<script>
-function myFunction() {
-    var x = document.getElementById("myInput");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
-}
-</script>
