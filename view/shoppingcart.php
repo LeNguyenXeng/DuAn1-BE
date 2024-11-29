@@ -27,7 +27,50 @@
                 <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
                     <div class="m-l-25 m-r--38 m-lr-0-xl">
                         <div class="wrap-table-shopping-cart">
-                            <table class="table-shopping-cart">
+                            <?php 
+                               // echo var_dump($_SESSION['giohang'][0]);
+                                if ((isset($_SESSION['giohang']))&&(count($_SESSION['giohang'])>0)) {
+
+                                    echo '<table class="table-shopping-cart">
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Ten san pham</th>
+                                                <th>Hinh anh</th>
+                                                <th>So luong</th>
+                                                <th>Don gia</th>
+                                                <th>Thanh tien</th>
+                                                <th>Thao tac</th>
+                                            </tr>';
+                                            $i=1;
+                                            foreach ($_SESSION['giohang'] as  $item) {
+                                                
+                                                $ttien = $item[3] * $item[4];
+                                                $id = $item[0];
+                                                $i += $ttien;
+                                                echo '<tr>
+                                                    <td>' . ($i + 1) . '</td>
+                                                    <td>' . $item[1] . '</td>
+                                                    <td><img src="upload/'.$item[2].'" width=" 70px"></td>
+                                                    <td>' . $item[4] . '</td>
+                                                    <td>' . $item[3] . '</td>
+                                                    <td>' . $ttien . '</td>
+                                                    <td>
+                                                        <a href="index.php?act=xoagiohang&id=' . $id . '">
+                                                            <input type="button" class="btn btn-outline-danger" value="Xóa">
+                                                        </a>
+                                                    </td>
+                                                </tr>';
+                                            }
+                                            
+                                    echo '</table>';
+
+                                }
+                            ?>
+                            <br>
+                            <a href="#">Thanh Toan</a> | <a href="index.php?act=home">Tiep tuc mua hang</a> | <a href="index.php?act=delcart">Xoa gio hang</a>
+                           
+                            <!-- <table class="table-shopping-cart">
+
                                 <tr class="table_head">
                                     <th class="column-1">Sản Phẩm</th>
                                     <th class="column-2"></th>
@@ -86,7 +129,7 @@
                                     </td>
                                     <td class="column-5">480,000₫</td>
                                 </tr>
-                            </table>
+                            </table> -->
                         </div>
 
                         <div class="button-update flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
@@ -114,7 +157,7 @@
 
                             <div class="size-209">
                                 <span class="mtext-110 cl2">
-                                    860,000₫
+                                <?=  number_format($i, 0, ",", ".")  ?>
                                 </span>
                             </div>
                         </div>
@@ -176,9 +219,9 @@
                             </div>
                         </div>
 
-                        <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                       <a heff="billcart.php"> <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
                             Đặt Hàng
-                        </button>
+                        </button> </a>
                     </div>
                 </div>
             </div>

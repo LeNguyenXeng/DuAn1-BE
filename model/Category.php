@@ -26,5 +26,6 @@ class Category {
         $stmt->bindParam(":name", $name);
         return $stmt->execute();
     }
+   
 }
 ?>

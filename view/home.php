@@ -435,8 +435,11 @@
                         $format = number_format($price, 0, ',', '.') . '₫';
                         echo '<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
                                         <div class="block2">
+                                <form action="index.php?act=addcart" method="post" class="block2-form">
                                             <div class="block2-pic hov-img0">
+                                            <a href="index.php?act=product&id='.$sp['id'].'">
                                                 <img src="'.$hinh.'">
+                                                </a>
                                                 <a href="index.php?act=product"
                                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                                                     Xem Chi Tiết
@@ -462,6 +465,19 @@
                                                             src="./resources/assets/img/icons/icon-heart-02.png" alt="ICON">
                                                     </a>
                                                 </div>
+                                            <div>
+                                               
+                                            </div>
+                                                <div>
+                                                <input type="hidden" name="id" value="'.$id.'">
+                                                <input type="hidden" name="tensp" value="'.$tensp.'">
+                                                <input type="hidden" name="hinh" value="'.$img.'">
+                                                <input type="hidden" name="price" value="'.$price.'">
+                                                <input type="hidden" name="addtocart" value="1">
+                                                </div>
+                                                <input type="submit" value="Add to cart" >
+                        
+                                        </form>
                                             </div>
                                         </div>
                                     </div>
