@@ -190,10 +190,6 @@ if(isset($_GET['act'])){
                     $listdanhmuc = loadall_danhmuc();
                     include "danhmuc/list.php";
                     break;
-            // //Bình Luận
-            // case 'binhluan':
-            //     include "binhluan/comments.php";
-            //     break;
         
         default:
             include "home.php";
