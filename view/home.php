@@ -66,7 +66,7 @@ try {
                         <div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
                             <div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
                                 <span class="ltext-101 cl2 respon2">
-                                    Now Available
+                                    Now Available 1
                                 </span>
                             </div>
 
