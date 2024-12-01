@@ -26,7 +26,6 @@
         <div class="container">
            
             <div class="row">
-            <h3>ID don hang: <?php echo $iddonhang?></h3>
                 <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
                     <div class="m-l-25 m-r--38 m-lr-0-xl">
                         <div class="wrap-table-shopping-cart">
