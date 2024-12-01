@@ -435,6 +435,7 @@ foreach($spnew as $sp){
     $format = number_format($price, 0, ',', '.') . '₫';
     echo '<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
                 <div class="block2">
+                <form action="index.php?act=addcart" method="post" class="block2-form">
                     <div class="block2-pic hov-img0">
                         <img src="'.$hinh.'">
                         <a href="index.php?act=product&idsp=' . $id . '" 
@@ -442,19 +443,16 @@ foreach($spnew as $sp){
                             Xem Chi Tiết
                         </a>
                     </div>
-
                     <div class="block2-txt flex-w flex-t p-t-14">
                         <div class="block2-txt-child1 flex-col-l ">
                             <a href="index.php?act=product&idsp=' . $id . '" 
                                 class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                 '.$tensp.'
                             </a>
-
                             <span class="stext-105 cl3">
                                 '.$format.'
                             </span>
                         </div>
-
                         <div class="block2-txt-child2 flex-r p-t-3">
                             <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
                                 <img class="icon-heart1 dis-block trans-04"
@@ -464,6 +462,15 @@ foreach($spnew as $sp){
                             </a>
                         </div>
                     </div>
+                    <div>
+                                                <input type="hidden" name="id" value="'.$id.'">
+                                                <input type="hidden" name="tensp" value="'.$tensp.'">
+                                                <input type="hidden" name="hinh" value="'.$hinh.'">
+                                                <input type="hidden" name="price" value="'.$price.'">
+                                                <input type="hidden" name="addtocart" value="1">
+                                                </div>
+                                                <input type="submit" value="Add to cart" >
+                    </form>
                 </div>
           </div>';
 }
