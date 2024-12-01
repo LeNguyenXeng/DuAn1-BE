@@ -1,66 +1,84 @@
 <!DOCTYPE html>
+<style>
+.popup-success {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #28a745;
+    color: white;
+    border-radius: 10px;
+    padding: 20px 40px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    /* Ẩn mặc định */
+    z-index: 9999;
+}
+
+.popup-success i {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.popup-success.show {
+    display: block;
+    /* Hiển thị khi có class 'show' */
+}
+</style>
 <html lang="en">
 
 <head>
     <title>Product Detail</title>
     <?php
-include "view/header.php";
-
-// Kết nối đến cơ sở dữ liệu
-$host = 'localhost';
-$dbname = 'duan1';
-$username = 'root';
-$password = '';
-
+    include "view/header.php";
+    $servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "duan1";
 try {
-    // Thiết lập kết nối PDO
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    // Kết nối cơ sở dữ liệu bằng PDO
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Gán giá trị mặc định cho các trường không nhập
-    $id_khachhang = 1; // Giá trị mặc định
-    $id_sp = 3; // ID sản phẩm mặc định
-
-    // Kiểm tra nếu form được gửi
+    // Lấy idsp từ URL, nếu không có thì đặt giá trị mặc định là 0
+    $idpro = isset($_GET['idsp']) ? intval($_GET['idsp']) : 0;
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $ten = isset($_POST['name']) ? trim($_POST['name']) : null;
-        $email = isset($_POST['email']) ? trim($_POST['email']) : null;
-        $noidung = isset($_POST['review']) ? trim($_POST['review']) : null;
+        $ten = isset($_POST['name']) ? trim($_POST['name']) : '';
+        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+        $noidung = isset($_POST['review']) ? trim($_POST['review']) : '';
+        $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 5;
+        $ngaybl = date('Y-m-d H:i:s'); // Lấy thời gian hiện tại
+        if (!empty($ten) && !empty($noidung) && $rating >= 1 && $rating <= 5) {
+            $insertQuery = "INSERT INTO binhluan (idpro, ten, email, noidung, rating, ngaybl) 
+                            VALUES (:idpro, :ten, :email, :noidung, :rating, :ngaybl)";
+            $stmt = $pdo->prepare($insertQuery);
+            $stmt->bindParam(':idpro', $idpro, PDO::PARAM_INT);
+            $stmt->bindParam(':ten', $ten, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':noidung', $noidung, PDO::PARAM_STR);
+            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+            $stmt->bindParam(':ngaybl', $ngaybl, PDO::PARAM_STR);
+            $stmt->execute();
 
-        // Kiểm tra các trường bắt buộc
-        if (!empty($ten) && !empty($email) && !empty($noidung)) {
-            try {
-                // Thêm bình luận vào cơ sở dữ liệu
-                $sqlInsert = "INSERT INTO binh_luan (id_khachhang, id_sp, ten, email, noidung) 
-                              VALUES (:id_khachhang, :id_sp, :ten, :email, :noidung)";
-                $stmtInsert = $pdo->prepare($sqlInsert);
-                $stmtInsert->execute([
-                    ':id_khachhang' => $id_khachhang,
-                    ':id_sp' => $id_sp,
-                    ':ten' => $ten,
-                    ':email' => $email,
-                    ':noidung' => $noidung,
-                ]);
-
-                // Nếu thành công
-                echo "<script>alert('Bình luận đã được thêm thành công!');</script>";
-            } catch (PDOException $e) {
-                // Báo lỗi khi thêm bình luận
-                echo "<script>alert('Lỗi khi thêm bình luận: " . $e->getMessage() . "');</script>";
-            }
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showSuccessPopup('Bình luận của bạn đã được thêm thành công!');
+                });
+            </script>";
         } else {
-            echo "<script>alert('Vui lòng nhập đầy đủ họ tên, email và nội dung bình luận.');</script>";
+            echo "<p class='text-danger'>Vui lòng nhập đầy đủ thông tin và chọn đánh giá hợp lệ!</p>";
         }
     }
+    // Truy vấn danh sách bình luận theo idpro
+    $query = "SELECT ten, ngaybl, noidung, rating FROM binhluan WHERE idpro = :idpro ORDER BY ngaybl DESC";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':idpro', $idpro, PDO::PARAM_INT);
+    $stmt->execute();
 
-    // Hiển thị bình luận
-    $sqlSelect = "SELECT * FROM binh_luan WHERE id_sp = :id_sp ORDER BY id_bl DESC";
-    $stmtSelect = $pdo->prepare($sqlSelect);
-    $stmtSelect->execute([':id_sp' => $id_sp]);
-    $binh_luan = $stmtSelect->fetchAll(PDO::FETCH_ASSOC);
-
+    $binhluan = $stmt->fetchAll(PDO::FETCH_ASSOC); // Lấy tất cả dữ liệu bình luận
 } catch (PDOException $e) {
-    die("Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage());
+    echo "Kết nối thất bại: " . $e->getMessage();
+    $binhluan = []; // Nếu lỗi, đặt mảng bình luận trống
 }
 ?>
 
@@ -86,42 +104,25 @@ try {
     <!-- Product Detail -->
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
         <div class="container">
+            <?php
+                extract($onesp);
+            ?>
             <div class="row">
                 <div class="col-md-6 col-lg-7 p-b-30">
-                    <div class="p-l-25 p-r-30 p-lr-0-lg">
+                    <div class="p-l-25 p-lr-0-lg">
                         <div class="wrap-slick3 flex-sb flex-w">
-                            <div class="wrap-slick3-dots"></div>
                             <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
                             <div class="slick3 gallery-lb">
-                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-01.jpg">
+                                <?php
+                                    $img = $img_path.$img;
+                                ?>
+                                <div class="item-slick3">
                                     <div class="wrap-pic-w pos-relative">
-                                        <img src="./resources/assets/img/product-detail-01.jpg" alt="IMG-PRODUCT">
+                                        <img src="<?php echo $img ?>" alt="IMG-PRODUCT">
 
                                         <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                            href="./resources/assets/img/product-detail-01.jpg">
-                                            <i class="fa fa-expand"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-02.jpg">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="./resources/assets/img/product-detail-02.jpg" alt="IMG-PRODUCT">
-
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                            href="./resources/assets/img/product-detail-02.jpg">
-                                            <i class="fa fa-expand"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="item-slick3" data-thumb="./resources/assets/img/product-detail-03.jpg">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="./resources/assets/img/product-detail-03.jpg" alt="IMG-PRODUCT">
-
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                            href="./resources/assets/img/product-detail-03.jpg">
+                                            href="<?php echo $img ?>">
                                             <i class="fa fa-expand"></i>
                                         </a>
                                     </div>
@@ -134,21 +135,16 @@ try {
                 <div class="col-md-6 col-lg-5 p-b-30">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
                         <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                            CREW LS JERSEY - RED
+                            <?php echo $tensp ?>
                         </h4>
 
                         <span class="mtext-106 cl2">
-                            $17,75
+                            <?php echo number_format($price, 0, '', ',') . '₫'; ?>
                         </span>
 
                         <p style="font-family: Poppins, sans-serif; font-size: 14px; line-height: 1.7;"
                             class=" cl3 p-t-23">
-                            CREW LS JERSEY - Chiếc áo tay dài mới được thiết kế theo phong cách thể thao với điểm nhấn
-                            nằm ở
-                            họa tiết mặt trước, mặt sau và 2 bên tay áo được sử dụng chất liệu in kéo lụa sắc nét. Phần
-                            thân
-                            áo và tay áo được may phối viền nổi bật. Áo sử dụng vải mesh lưới tạo cảm giác thoải mái và
-                            thoáng mát hơn cho bạn khi vận động.
+                            <?php echo $mota ?>
                         </p>
 
                         <!--  -->
@@ -199,17 +195,26 @@ try {
                                         </div>
 
                                         <input class="mtext-104 cl3 txt-center num-product" type="number"
-                                            name="num-product" value="1">
+                                            name="num-product" value="1" min="1" max="50" name= "sl" >
 
+                                        
                                         <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
+                                        
+                                        
                                     </div>
+                                        <br>
+                                        <form method="post" action="index.php?act=addcart">
+                                                <input type="hidden" name="id" value="<?php echo $id ?>">
+                                                <input type="hidden" name="tensp" value="<?php echo $tensp ?>">
+                                                <input type="hidden" name="hinh" value="<?php echo $img ?>">
+                                                <input type="hidden" name="price" value="<?php echo $price ?>">
+                                                <input type="submit" name="addtocart" value="Thêm vào giỏ hàng">
+</form>
 
-                                    <button
-                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-                                        Thêm vào giỏ hàng
-                                    </button>
+                                    <!-- <input value="Teem vao gio hang" a href="index.php?act=addcart.php"
+                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04" name="addtocart"> -->
                                 </div>
                             </div>
                         </div>
@@ -243,6 +248,7 @@ try {
                         </div>
                     </div>
                 </div>
+                
             </div>
 
             <div class="bor10 m-t-50 p-t-43 p-b-40">
@@ -269,17 +275,9 @@ try {
                         <div class="tab-pane fade show active" id="description" role="tabpanel">
                             <div class="how-pos2 p-lr-15-md">
                                 <p class="stext-102 cl6">
-                                    ACREW LS JERSEY - Chiếc áo tay dài mới được thiết kế theo phong cách thể thao với
-                                    điểm
-                                    nhấn nằm ở họa tiết mặt trước, mặt sau và 2 bên tay áo được sử dụng chất liệu in kéo
-                                    lụa
-                                    sắc nét. Phần thân áo và tay áo được may phối viền nổi bật. Áo sử dụng vải mesh lưới
-                                    tạo
-                                    cảm giác thoải mái và thoáng mát hơn cho bạn khi vận động. <br> <br>
-
-                                    Áo Jersey SWE vẫn được sử dụng POLYESTER 100%, định lượng 210gsm, thiết kế form áo
-                                    LS
-                                    JERSEY nên chất lượng các bạn có thể hoàn toàn yên tâm với sản phẩm nhà SWE.
+                                    <?php
+                                        echo $mota
+                                    ?>
                             </div>
                         </div>
 
@@ -327,64 +325,109 @@ try {
                                 <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                                     <div class="p-b-30 m-lr-15-sm">
                                         <!-- Review -->
-                                        <div class="flex-w flex-t p-b-68">
-                                            <h3>Bình luận sản phẩm</h3> <br>
-                                            
-                                            <!-- <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-                                                <img src="./resources/assets/img/avatar-01.jpg" alt="AVATAR">
-                                            </div> -->
-
-                                            <div class="size-207">
-                                                <?php foreach($binh_luan as $comment): ?>
-
-                                                <div class="flex-w flex-sb-m p-b-17">
-                                                    <span class="mtext-107 cl2 p-r-20">
-                                                    <?php echo htmlspecialchars($comment['ten']); ?>
-                                                    </span>
-
-                                                    <!-- <span class="fs-18 cl11">
-                                                        <i class="zmdi zmdi-star"></i>
-                                                        <i class="zmdi zmdi-star"></i>
-                                                        <i class="zmdi zmdi-star"></i>
-                                                        <i class="zmdi zmdi-star"></i>
-                                                        <i class="zmdi zmdi-star-half"></i>
-                                                    </span> -->
+                                        <div class="card">
+                                            <div class="card-header">Danh sách bình luận</div>
+                                            <div class="card-body">
+                                                <?php if (!empty($binhluan)): ?>
+                                                <?php foreach ($binhluan as $comment): ?>
+                                                <div class="comment-item border-top py-3">
+                                                    <div
+                                                        class="top-comment-item d-flex align-items-center justify-content-between">
+                                                        <div class="user-name">
+                                                            <strong><?php echo htmlspecialchars($comment['ten']); ?></strong>
+                                                        </div>
+                                                        <div class="date-comment">
+                                                            <span><?php echo htmlspecialchars($comment['ngaybl']); ?></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating-comment mt-2">
+                                                        <?php 
+                                                        $rating = intval($comment['rating']); // Đảm bảo rating là số nguyên
+                                                        echo str_repeat('<i class="zmdi zmdi-star text-warning"></i>', $rating); 
+                                                        echo str_repeat('<i class="zmdi zmdi-star-outline text-muted"></i>', 5 - $rating);
+                                                    ?>
+                                                    </div>
+                                                    <div class="bottom-comment-item mt-2">
+                                                        <?php echo nl2br(htmlspecialchars($comment['noidung'])); ?>
+                                                    </div>
                                                 </div>
-
-                                                <p class="stext-102 cl6">
-                                                <?php echo nl2br(htmlspecialchars($comment['noidung'])); ?>
-                                                </p>
                                                 <?php endforeach; ?>
+                                                <?php else: ?>
+                                                <p>Không có bình luận nào.</p>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
+                                        <br>
 
                                         <!-- Add review -->
-                    <form class="w-full" id="commentForm" method="POST">
-                            <h5 class="mtext-108 cl2 p-b-7">Thêm đánh giá của bạn</h5>
+                                        <form class="w-full" method="POST" action="" enctype="multipart/form-data">
+                                            <h5 class="mtext-108 cl2 p-b-7">
+                                                Thêm đánh giá của bạn
+                                            </h5>
 
-                            <p class="stext-102 cl6">Your email address will not be published. Required fields are marked *</p> <br>
-                            <div class="row p-b-25">
-                                <div class="col-12 p-b-5">
-                                    <label class="stext-102 cl3" for="review">Bình luận</label>
-                                    <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review" required></textarea>
-                                </div>
+                                            <p class="stext-102 cl6">
+                                                Your email address will not be published. Required fields are marked *
+                                            </p>
 
-                                <div class="col-sm-6">
-                                    <label class="stext-102 cl3" for="name" style="margin-top: 10px;">Họ Tên</label>
-                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name" required>
-                                </div>
+                                            <div class="flex-w flex-m p-t-50 p-b-23">
+                                                <span class="stext-102 cl3 m-r-16">Đánh giá</span>
 
-                                <div class="col-sm-6">
-                                    <label class="stext-102 cl3" for="email" style="margin-top: 10px;">Email</label>
-                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="email" name="email" required>
-                                </div>
-                            </div>
+                                                <!-- Đánh giá sao -->
+                                                <div class="wrap-rating fs-18 cl11 pointer"
+                                                    style="display: flex; gap: 5px;">
+                                                    <input class="dis-none" type="radio" name="rating" value="1"
+                                                        id="star1">
+                                                    <label for="star1"
+                                                        class="item-rating zmdi zmdi-star-outline"></label>
 
-                            <button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                Bình luận
-                            </button>
-                    </form>
+                                                    <input class="dis-none" type="radio" name="rating" value="2"
+                                                        id="star2">
+                                                    <label for="star2"
+                                                        class="item-rating zmdi zmdi-star-outline"></label>
 
+                                                    <input class="dis-none" type="radio" name="rating" value="3"
+                                                        id="star3">
+                                                    <label for="star3"
+                                                        class="item-rating zmdi zmdi-star-outline"></label>
+
+                                                    <input class="dis-none" type="radio" name="rating" value="4"
+                                                        id="star4">
+                                                    <label for="star4"
+                                                        class="item-rating zmdi zmdi-star-outline"></label>
+
+                                                    <input class="dis-none" type="radio" name="rating" value="5"
+                                                        id="star5">
+                                                    <label for="star5"
+                                                        class="item-rating zmdi zmdi-star-outline"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row p-b-25">
+                                                <div class="col-12 p-b-5">
+                                                    <label class="stext-102 cl3" for="review">Bình luận</label>
+                                                    <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
+                                                        id="review" name="review" required></textarea>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <label class="stext-102 cl3" for="name" style="margin-top: 10px;">Họ
+                                                        Tên</label>
+                                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name"
+                                                        type="text" name="name" required>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <label class="stext-102 cl3" for="email"
+                                                        style="margin-top: 10px;">Email</label>
+                                                    <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
+                                                        type="email" name="email" required>
+                                                </div>
+                                            </div>
+                                            <button
+                                                class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+                                                Bình luận
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -413,7 +456,7 @@ try {
                             <div class="block2-pic hov-img0">
                                 <img src="./resources/assets/img/product-01.jpg" alt="IMG-PRODUCT">
 
-                                <a href=""
+                                <a href="index.php?act=product"
                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     Xem Chi Tiết
                                 </a>
@@ -421,7 +464,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         CREW LS JERSEY - RED
                                     </a>
@@ -449,7 +492,7 @@ try {
                             <div class="block2-pic hov-img0">
                                 <img src="./resources/assets/img/product-02.jpg" alt="IMG-PRODUCT">
 
-                                <a href="#"
+                                <a href="index.php?act=product"
                                     class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                     Xem Chi Tiết
                                 </a>
@@ -457,7 +500,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         CREW LS JERSEY - BLACK
                                     </a>
@@ -493,7 +536,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         EDGE WASHED JEANS - BLUE
                                     </a>
@@ -529,7 +572,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         EDGE WASHED JEANS - LIGHT BLUE
                                     </a>
@@ -565,7 +608,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         NIGHTSTAR BACKPACK
                                     </a>
@@ -601,7 +644,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         S LETTER CAP - BLUE
                                     </a>
@@ -637,7 +680,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         E LETTER CAP - BEIGE
                                     </a>
@@ -673,7 +716,7 @@ try {
 
                             <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l ">
-                                    <a href="product-detail.html"
+                                    <a href="index.php?act=product"
                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         KA STRIPED TOTE - PINK
                                     </a>
@@ -702,4 +745,23 @@ try {
     <?php
     include "view/footer.php";
 ?>
+    <script>
+    function showSuccessPopup(message) {
+        const popup = document.createElement('div');
+        popup.className = 'popup-success';
 
+        popup.innerHTML = `
+          <i class="fa fa-check-circle"></i>
+          <p>${message}</p>
+      `;
+
+        document.body.appendChild(popup);
+        popup.classList.add('show');
+
+        // Ẩn popup sau 3 giây
+        setTimeout(() => {
+            popup.classList.remove('show');
+            document.body.removeChild(popup);
+        }, 3000);
+    }
+    </script>

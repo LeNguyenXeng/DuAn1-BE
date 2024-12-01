@@ -9,7 +9,7 @@
         return $sp;
         
     }
-    function update_taikhoan($id,$user,$pass,$email,$address,$tel){
+    function  update_taikhoan($id,$user, $pass, $email,$address,$tel){
         $sql = "UPDATE taikhoan SET user='".$user."',pass='".$pass."',email='".$email."',address='".$address."',tel='".$tel."' WHERE id=".$id;
         pdo_execute($sql);
     }
@@ -22,11 +22,6 @@
         $sql = "SELECT * FROM taikhoan ORDER by id desc";
         $listtaikhoan = pdo_query($sql);
         return $listtaikhoan;
-    }
-    function loadall_cmt(){
-        $sql = "SELECT * FROM binh_luan ORDER by id_bl desc";
-        $listcmt = pdo_query($sql);
-        return $listcmt;
     }
     function delete_taikhoan($id){
         $sql = "DELETE FROM taikhoan WHERE id=".$id;

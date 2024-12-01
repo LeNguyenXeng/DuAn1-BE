@@ -46,7 +46,7 @@
         }
         ?>
         <div class="mb-3" style="font-family: Popspismedium, sans-serif;">
-            <a href="index.php?act=logout">Thoát</a>
+            <a href="index.php?act=logout">Đăng Xuất</a>
         </div>
 
         <?php
