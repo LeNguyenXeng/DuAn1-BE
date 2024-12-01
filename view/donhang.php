@@ -14,23 +14,26 @@
             </a>
 
             <span class="stext-109 cl4">
-                Shoping Cart
+             Đơn Hàng
             </span>
         </div>
     </div>
 
 
+
     <!-- Shoping Cart -->
-    
+    <form class="bg0 p-t-75 p-b-85">
         <div class="container">
+           
             <div class="row">
+            <h3>ID don hang: <?php echo $iddonhang?></h3>
                 <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
                     <div class="m-l-25 m-r--38 m-lr-0-xl">
                         <div class="wrap-table-shopping-cart">
                             <?php
                             // echo var_dump($_SESSION['giohang'][0]);
                             if ((isset($_SESSION['giohang'])) && (count($_SESSION['giohang']) > 0)) {
-
+                              
                                 echo '<table class="table-shopping-cart ">
                                             <tr class="table_head">
                                                 <th class="column-1" >STT</th>
@@ -39,7 +42,7 @@
                                                 <th class="column-4">Số lượng</th>
                                                 <th class="column-5">Đơn giá</th>
                                                 <th class="column-6">Thành tiền</th>
-                                                <th class="column-7">Thao tác</th>
+                                               
                                             </tr>';
                                 $i = 0;
                                 $tongtien = 0;
@@ -57,11 +60,7 @@
                                                     <td class="column-4">' . $item[4] . '</td>
                                                     <td class="column-5">' . $item[3] . '</td>
                                                     <td class="column-6">' . $ttien . '</td>
-                                                   <td class="column-7">
-            <a href="index.php?act=delcart&i=' . $i . '">
-                <input type="button" class="btn btn-outline-danger" value="Xóa">
-            </a>
-        </td>
+                                                  
                                                 </tr>';
                                     $i++;
                                 }
@@ -69,8 +68,7 @@
                                 echo '</table>';
                             }
                             ?>
-                            <br>
-                            <a href="#">Thanh Toán</a> | <a href="index.php?act=home">Tiếp tục mua hàng</a> | <a href="index.php?act=delcart">Xóa giỏ hàng</a>
+                            
                             <!-- <table class="table-shopping-cart">
                                 <tr class="table_head">
                                     <th class="column-1">Sản Phẩm</th>
@@ -170,55 +168,40 @@
                                 </span>
                             </div>
 
-                            
-                            <form action="index.php?act=thanhtoan" method="POST">
-                                <table class="table-shopping-cart">
-                                <input type="hidden" value="<?php echo $tongdonhang; ?>" name="tongdonhang">
-                                <input type="hidden" value="" name="dienthoai">
-                                <input type="hidden" value="" name="name">
-                                <input type="hidden" value="<?php echo $user; ?>" name="user">
+                            <div class=" p-r-18 p-r-0-sm w-full-ssm">
+                                <div class="p-t-15">
+                                    <div class="bor8 bg0 m-b-12">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="name"
+                                            placeholder="Họ và tên">
+                                    </div>
 
-                                
-                                                <tr>
-                                                    <td><input type="text" name="hoten" placeholder="Nhập họ tên" required></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="text" name="diachi" placeholder="Nhập địa chỉ nhà" required></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="text" name="email" placeholder="Nhập email" required></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="text" name="sdt" placeholder="Nhập số điện thoại" required></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Phương thức thanh toán <br>
-                                                    <input type="radio" name="ptthanhtoan" value="1">Thanh toán khi nhận hàng <br>
-                                                    <input type="radio" name="ptthanhtoan" value="2">Thanh toán Ví Pay<br>
-                                                    <input type="radio" name="ptthanhtoan" value="3">Thanh toán Ví MoMo<br>
-                                                    <input type="radio" name="ptthanhtoan" value="4">Thanh toán Online<br>
+                                    <div class="bor8 bg0 m-b-22">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="email"
+                                            placeholder="Email">
+                                    </div>
 
+                                    <div class="bor8 bg0 m-b-22">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="number" name="dienthoai"
+                                            placeholder="Số điện thoại">
+                                    </div>
 
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                    <input class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn1 p-lr-15 trans-04" type="submit" name="thanhtoan" value="Đặt hàng">
+                                    <div class="bor8 bg0 m-b-22">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="diachi"
+                                            placeholder="Địa Chỉ">
+                                    </div>
+                                   
+                                   
+                                </div>
+                            </div>
 
-                                                    </td>
-                                                </tr>
-                                               
-                                </table>
-   
-                                </form>
                         </div>
 
-                       
+                        
                     </div>
                 </div>
             </div>
         </div>
-   
+    </form>
 
 
 
