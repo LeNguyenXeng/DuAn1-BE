@@ -29,21 +29,31 @@ function pdo_execute($sql)
 
 function pdo_execute1($sql)
 {
+    // Lấy tất cả tham số sau tham số đầu tiên
     $sql_args = array_slice(func_get_args(), 1);
+
     try {
-        if (count($sql_args) > 0 && !is_array($sql_args[0])) {
-            $sql_args = [$sql_args]; // Đảm bảo truyền đúng dạng mảng
+        // Kiểm tra xem tham số có phải là mảng không
+        if (count($sql_args) > 0 && is_array($sql_args[0])) {
+            $sql_args = $sql_args[0];  // Đảm bảo chỉ dùng mảng tham số
         }
-        
+
+        // Kết nối cơ sở dữ liệu
         $conn = pdo_get_connection();
+
+        // Chuẩn bị câu lệnh SQL
         $stmt = $conn->prepare($sql);
-        $stmt->execute($sql_args[0]); // Thực thi với mảng giá trị chính xác
+
+        // Thực thi câu lệnh với mảng tham số
+        $stmt->execute($sql_args); // Thực thi câu lệnh SQL với mảng tham số
     } catch (PDOException $e) {
-        throw $e;
+        echo "Lỗi SQL: " . $e->getMessage(); // In lỗi SQL ra màn hình
+        die(); // Dừng chương trình khi có lỗi
     } finally {
         unset($conn);
     }
 }
+
 
 // truy vấn nhiều dữ liệu
 function pdo_query($sql)

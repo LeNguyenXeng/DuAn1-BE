@@ -195,23 +195,25 @@ try {
                                         </div>
 
                                         <input class="mtext-104 cl3 txt-center num-product" type="number"
-                                            name="num-product" value="1" min="1" max="50" name= "sl" >
+                                            name="num-product" value="1" min="1" max="50" name="sl">
 
-                                        
+
                                         <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
-                                        
-                                        
+
+
                                     </div>
-                                        <br>
-                                        <form method="post" action="index.php?act=addcart">
-                                                <input type="hidden" name="id" value="<?php echo $id ?>">
-                                                <input type="hidden" name="tensp" value="<?php echo $tensp ?>">
-                                                <input type="hidden" name="hinh" value="<?php echo $img ?>">
-                                                <input type="hidden" name="price" value="<?php echo $price ?>">
-                                                <input type="submit" name="addtocart" value="Thêm vào giỏ hàng">
-</form>
+                                    <br>
+                                    <form method="post" action="index.php?act=addcart">
+                                        <input type="hidden" name="id" value="<?php echo $id ?>">
+                                        <input type="hidden" name="tensp" value="<?php echo $tensp ?>">
+                                        <input type="hidden" name="hinh" value="<?php echo $img ?>">
+                                        <input type="hidden" name="price" value="<?php echo $price ?>">
+                                        <input
+                                            class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail"
+                                            type="submit" name="addtocart" value="Thêm vào giỏ hàng">
+                                    </form>
 
                                     <!-- <input value="Teem vao gio hang" a href="index.php?act=addcart.php"
                                         class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04" name="addtocart"> -->
@@ -248,7 +250,7 @@ try {
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="bor10 m-t-50 p-t-43 p-b-40">

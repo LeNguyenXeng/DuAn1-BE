@@ -28,7 +28,7 @@
                             </div>
 
                             <div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-                                <a href="product.html"
+                                <a href="index.php?act=shop"
                                     class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                     Shop Now
                                 </a>
@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-                                <a href="product.html"
+                                <a href="index.php?act=shop"
                                     class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                     Shop Now
                                 </a>
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-                                <a href="product.html"
+                                <a href="index.php?act=shop"
                                     class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                     Shop Now
                                 </a>
@@ -103,7 +103,7 @@
                     <div class="block1 wrap-pic-w">
                         <img src="./resources/assets/img/banner-01.jpg" alt="Banner Image">
 
-                        <a href="product.html"
+                        <a href="index.php?act=shop"
                             class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                             <div class="block1-txt-child1 flex-col-l">
                                 <span class="block1-name ltext-102 trans-04 p-b-8">
@@ -129,7 +129,7 @@
                     <div class="block1 wrap-pic-w">
                         <img src="./resources/assets/img/banner-02.jpg" alt="IMG-BANNER">
 
-                        <a href="product.html"
+                        <a href="index.php?act=shop"
                             class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                             <div class="block1-txt-child1 flex-col-l">
                                 <span class="block1-name ltext-102 trans-04 p-b-8">
@@ -155,7 +155,7 @@
                     <div class="block1 wrap-pic-w">
                         <img src="./resources/assets/img/banner-03.jpg" alt="IMG-BANNER">
 
-                        <a href="product.html"
+                        <a href="index.php?act=shop"
                             class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
                             <div class="block1-txt-child1 flex-col-l">
                                 <span class="block1-name ltext-102 trans-04 p-b-8">
@@ -181,7 +181,7 @@
 
 
     <!-- Product -->
-    <section class="bg0 p-t-23 p-b-140">
+    <section class="bg0 p-t-23" style="margin-bottom: 60px">
         <div class="container">
             <div class="p-b-10">
                 <h3 class="ltext-103 cl5 ">
@@ -454,13 +454,10 @@ foreach($spnew as $sp){
                             </span>
                         </div>
                         <div class="block2-txt-child2 flex-r p-t-3">
-                            <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                <img class="icon-heart1 dis-block trans-04"
-                                    src="./resources/assets/img/icons/icon-heart-01.png" alt="ICON">
-                                <img class="icon-heart2 dis-block trans-04 ab-t-l"
-                                    src="./resources/assets/img/icons/icon-heart-02.png" alt="ICON">
-                            </a>
-                        </div>
+								<button type="submit" href="#" class="btn-addwish-b2 dis-block pos-relative">
+                                    <i class="zmdi zmdi-shopping-cart" style="color: black; font-size: 21px; color: #515960;"></i>	
+								</button>
+						</div>
                     </div>
                     <div>
                                                 <input type="hidden" name="id" value="'.$id.'">
@@ -469,7 +466,6 @@ foreach($spnew as $sp){
                                                 <input type="hidden" name="price" value="'.$price.'">
                                                 <input type="hidden" name="addtocart" value="1">
                                                 </div>
-                                                <input type="submit" value="Add to cart" >
                     </form>
                 </div>
           </div>';
