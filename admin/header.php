@@ -18,7 +18,7 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" style="font-weight: 700;" href="index.php?act=home">SWE
+        <a class="navbar-brand ps-3" href="index.php?act=home">SWE
             ADMIN</a>
         <!-- Sidebar Toggle-->
         <i style="color: white; font-size: 18px" class="fa-solid fa-code"></i>
@@ -31,6 +31,11 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!">Cài Đặt</a></li>
+                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
                     <li><a class="dropdown-item" href="index.php?act=logout">Đăng Xuất</a></li>
                 </ul>
             </li>
