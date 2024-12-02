@@ -190,6 +190,14 @@ if(isset($_GET['act'])){
                     $listdanhmuc = loadall_danhmuc();
                     include "danhmuc/list.php";
                     break;
+                    // case cmt
+                    case 'binhluan':
+                        // $listcmt = loadall_cmt();
+                        include "binhluan/list.php";
+                        break;
+                    case 'xoabl':
+                        include "binhluan/delete_comment.php";
+                        break;
         
         default:
             include "home.php";
