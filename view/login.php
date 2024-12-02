@@ -19,35 +19,86 @@
             </span>
         </div>
     </div>
-
     <div class="login-page">
         <?php
             if(isset($_SESSION['user'])){
                 extract($_SESSION['user']);
                 
         ?>
-        <div class="mb-3" style="margin-top: 20px;">
-            <label style="font-size: 15px" for="exampleInputEmail1" class="tkmk form-label">Xin chào
-                <?php echo $user ?></label>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src="./resources/assets/img/avatar.png" alt="avatar" class="rounded-circle img-fluid"
+                                style="width: 150px;">
+                            <h5 style="font-weight: bold;" class="my-3"><?php echo $user ?></h5>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                                <button type="button"
+                                    style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+                                    <a href="index.php?act=quenmk" style="color: white; text-decoration: none;">Quên mật
+                                        khẩu</a>
+
+                                </button>
+                                <button type="button"
+                                    style="padding: 10px; background-color: transparent; border: 1px solid #6c757d; border-radius: 5px;">
+                                    <a href="index.php?act=edit_taikhoan"
+                                        style="color: #6c757d; text-decoration: none;">Cập nhật tài khoản</a>
+                                </button>
+                            </div>
+
+                            <?php if ($role == 1) { ?>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                                <button type="button"
+                                    style="padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; width: 283px;">
+                                    <a href="admin/index.php" style="color: white; text-decoration: none;">Đăng nhập vào
+                                        Admin</a>
+                                </button>
+                            </div>
+                            <?php } ?>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; ">
+                                <button type="button"
+                                    style="padding: 10px; background-color: transparent; border: 1px solid #dc3545; border-radius: 5px; width: 283px;">
+                                    <a href="index.php?act=logout" style="color: #dc3545; text-decoration: none;">Đăng
+                                        Xuất</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div style="display: flex; margin-bottom: 10px;">
+                                <div style="width: 30%; font-weight: bold;">Họ tên</div>
+                                <div style="width: 70%;"><?php echo $user ?></div>
+                            </div>
+                            <hr>
+                            <div style="display: flex; margin-bottom: 10px;">
+                                <div style="width: 30%; font-weight: bold;">Email</div>
+                                <div style="width: 70%;"><?php echo $email ?></div>
+                            </div>
+                            <hr>
+                            <div style="display: flex; margin-bottom: 10px;">
+                                <div style="width: 30%; font-weight: bold;">Số điện thoại</div>
+                                <div style="width: 70%;"><?php echo $tel ?></div>
+                            </div>
+                            <hr>
+                            <div style="display: flex; margin-bottom: 10px;">
+                                <div style="width: 30%; font-weight: bold;">Mật khẩu</div>
+                                <div style="width: 70%;"><?php echo $pass ?></div>
+                            </div>
+                            <hr>
+                            <div style="display: flex; margin-bottom: 10px;">
+                                <div style="width: 30%; font-weight: bold;">Địa Chỉ</div>
+                                <div style="width: 70%;"><?php echo $address ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3" style="font-family: Popspismedium, sans-serif;">
-            <a href="index.php?act=quenmk">Quên mật khẩu</a>
-        </div>
-        <div class="mb-3" style="font-family: Popspismedium, sans-serif;">
-            <a href="index.php?act=edit_taikhoan">Cập nhật tài khoản</a>
-        </div>
-        <?php
-            if ($role == 1) {
-        ?>
-        <div class="mb-3" style="font-family: Popspismedium, sans-serif;">
-            <a href="admin/index.php">Đăng nhập vào admin</a>
-        </div>
-        <?php
-        }
-        ?>
-        <div class="mb-3" style="font-family: Popspismedium, sans-serif;">
-            <a href="index.php?act=logout">Đăng Xuất</a>
-        </div>
+
 
         <?php
         }else{

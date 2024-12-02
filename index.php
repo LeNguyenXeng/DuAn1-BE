@@ -167,7 +167,7 @@ if(isset($_GET['act'])){
                    
                     header('location: index.php?act=home');
                     break;
-                    case 'thanhtoan':
+                case 'thanhtoan':
                         if (isset($_POST['thanhtoan']) && $_POST['thanhtoan']) {
                             // Lấy dữ liệu từ form
                             $tongdonhang = $_POST['tongdonhang'];
@@ -193,6 +193,9 @@ if(isset($_GET['act'])){
                         
                         include "view/donhang.php";
                         break;
+            case 'thanhtoandonhang':
+                include "view/thanhtoan.php";
+                break;
                     
         default:
             include "view/home.php";

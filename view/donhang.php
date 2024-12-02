@@ -14,7 +14,7 @@
             </a>
 
             <span class="stext-109 cl4">
-             Đơn Hàng
+                Đơn Hàng
             </span>
         </div>
     </div>
@@ -24,12 +24,13 @@
     <!-- Shoping Cart -->
     <form class="bg0 p-t-75 p-b-85">
         <div class="container">
-           
+
             <div class="row">
                 <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
                     <div class="m-l-25 m-r--38 m-lr-0-xl">
                         <div class="wrap-table-shopping-cart">
                             <?php
+                                $tongtien = 0;
                             // echo var_dump($_SESSION['giohang'][0]);
                             if ((isset($_SESSION['giohang'])) && (count($_SESSION['giohang']) > 0)) {
                               
@@ -44,7 +45,6 @@
                                                
                                             </tr>';
                                 $i = 0;
-                                $tongtien = 0;
                                 foreach ($_SESSION['giohang'] as  $item) {
                                     $quantity = (int)$item[3];  // Số lượng (ep kiểu thành int)
                                     $price = (float)$item[4];
@@ -67,7 +67,7 @@
                                 echo '</table>';
                             }
                             ?>
-                            
+
                             <!-- <table class="table-shopping-cart">
                                 <tr class="table_head">
                                     <th class="column-1">Sản Phẩm</th>
@@ -155,7 +155,7 @@
 
                             <div class="size-209">
                                 <span class="mtext-110 cl2">
-                                <?=  number_format($tongtien, 0, ",", ".")  ?>
+                                    <?=  number_format($tongtien, 0, ",", ".")  ?>
                                 </span>
                             </div>
                         </div>
@@ -180,22 +180,22 @@
                                     </div>
 
                                     <div class="bor8 bg0 m-b-22">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="number" name="dienthoai"
-                                            placeholder="Số điện thoại">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="number"
+                                            name="dienthoai" placeholder="Số điện thoại">
                                     </div>
 
                                     <div class="bor8 bg0 m-b-22">
                                         <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="diachi"
                                             placeholder="Địa Chỉ">
                                     </div>
-                                   
-                                   
+
+
                                 </div>
                             </div>
 
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>
