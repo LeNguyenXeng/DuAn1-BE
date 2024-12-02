@@ -11,6 +11,7 @@
     include "model/sanpham.php";
     include "model/donhang.php";
     include "model/pdo.php";
+    include "model/connectdb.php";
     include "global.php";
 //   include "view/donhang.php";
 
@@ -168,34 +169,42 @@ if(isset($_GET['act'])){
                     header('location: index.php?act=home');
                     break;
                 case 'thanhtoan':
-                        if (isset($_POST['thanhtoan']) && $_POST['thanhtoan']) {
-                            // Lấy dữ liệu từ form
-                            $tongdonhang = $_POST['tongdonhang'];
-                            $name = $_POST['name'];
-                            $diachi = $_POST['diachi'];
-                            $email = $_POST['email'];
-                            $dienthoai = $_POST['dienthoai'];
-                            $ptthanhtoan = $_POST['ptthanhtoan'];
-                            
-                            // Kiểm tra nếu biến $_POST['user'] có tồn tại và có giá trị hợp lệ
-                            $user = isset($_POST['user']) && !empty($_POST['user']) ? (int)$_POST['user'] : 0;// Gán giá trị mặc định là 0 nếu trống
-                        
-                            // Chuyển $tongdonhang thành số thực (float)
-                            $tongdonhang = (float)$tongdonhang;
-                        
-                            // Tạo mã đơn hàng
-                            $madonhang = "SWE" . rand(0, 999999);
-                        
-                            // Tạo đơn hàng và lấy ID đơn hàng
-                            $iddonhang = taodonhang($madonhang, $tongdonhang, $user, $ptthanhtoan, $name, $diachi, $email, $dienthoai);
-                           
-                    }
-                        
                         include "view/donhang.php";
                         break;
-            case 'thanhtoandonhang':
-                include "view/thanhtoan.php";
-                break;
+                case 'thanhtoandonhang':
+                    
+                            if (isset($_POST['thanhtoan']) && $_POST['thanhtoan']) {
+                                $tongdonhang = $_POST['tongdonhang'];
+                                $name = $_POST['hoten'];
+                                $diachi = $_POST['diachi'];
+                                $email = $_POST['email'];
+                                $dienthoai = $_POST['sdt'];
+                                $ptthanhtoan = $_POST['ptthanhtoan'];
+                        
+                               
+                                $user = isset($_POST['user']) && !empty($_POST['user']) ? (int)$_POST['user'] : 0;
+                        
+                                $tongdonhang = (float)$tongdonhang;
+                        
+                                $madonhang = "SWE" . rand(0, 999999);
+                        
+                                $iddonhang = taodonhang($madonhang, $tongdonhang, $user, $ptthanhtoan, $name, $diachi, $email, $dienthoai);
+                                $_SESSION['iddonhang'] = $iddonhang;
+                                if (isset($_SESSION['giohang']) && count($_SESSION['giohang']) > 0) {
+                                    $iddonhang = $iddonhang ?? 0;
+                                    foreach ($_SESSION['giohang'] as $item) {
+                                        addtocart($iddonhang, $item[0], $item[1], $item[2], $item[3], $item[4]);
+                                    }
+                                    unset($_SESSION['giohang']);
+                                }
+                        
+                                header("Location: index.php?act=thanhtoan");
+                                exit();
+                            }
+                        
+                            include "view/thanhtoan.php";
+                            break;
+                        
                     
         default:
             include "view/home.php";

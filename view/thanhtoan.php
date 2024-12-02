@@ -66,14 +66,15 @@
                     </div>
 
 
-                    <form action="index.php?act=thanhtoan" method="POST" style="margin-top:20px">
+                    <form action="index.php?act=thanhtoandonhang" method="POST" style="margin-top:20px">
+                        <?php
+$tongdonhang = isset($tongtien) ? $tongtien : 0;
+?>
+                        <input type="hidden" value="<?php echo $tongdonhang; ?>" name="tongdonhang">
+                        <input type="hidden" value="" name="dienthoai">
+                        <input type="hidden" value="" name="name">
+                        <input type="hidden" value="<?php echo $user; ?>" name="user">
                         <table class="table-shopping-cart">
-                            <input type="hidden" value="<?php echo $tongdonhang; ?>" name="tongdonhang">
-                            <input type="hidden" value="" name="dienthoai">
-                            <input type="hidden" value="" name="name">
-                            <input type="hidden" value="<?php echo $user; ?>" name="user">
-
-
                             <div class="bor8 bg0 m-b-12">
                                 <input style="height: 50px;" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"
                                     name="hoten" placeholder="Nhập họ tên" required>

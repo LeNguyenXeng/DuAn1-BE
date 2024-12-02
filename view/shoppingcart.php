@@ -29,7 +29,6 @@
                     <div class="wrap-table-shopping-cart">
                         <?php
                                 $tongtien = 0;
-
                             // echo var_dump($_SESSION['giohang'][0]);
                             if ((isset($_SESSION['giohang'])) && (count($_SESSION['giohang']) > 0)) {
 
