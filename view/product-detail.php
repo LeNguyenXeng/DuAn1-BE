@@ -1,5 +1,37 @@
 <!DOCTYPE html>
 <style>
+    /* CSS cho popup lỗi */
+.showErrorPopup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da; /* Màu nền đỏ nhạt */
+    color: #721c24;           /* Màu chữ đỏ đậm */
+    padding: 15px 20px;
+    border: 1px solid #f5c6cb; /* Viền đỏ nhạt */
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Hiệu ứng đóng popup */
+.showErrorPopup.hidden {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Hiệu ứng hiển thị */
+.showErrorPopup.show {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
 .popup-success {
     position: fixed;
     top: 20%;
@@ -31,44 +63,92 @@
 <head>
     <title>Product Detail</title>
     <?php
-    include "view/header.php";
-    $servername = "localhost";
+include "view/header.php";
+
+// Kết nối cơ sở dữ liệu
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "duan1";
+
+// Kiểm tra nếu session đã được khởi tạo và có thông tin người dùng
+if (isset($_SESSION['user']) && !empty($_SESSION['user'])) {
+    // Lấy thông tin người dùng từ session
+    $user_name = $_SESSION['user']['user']; // Thay 'username' bằng thông tin người dùng bạn cần
+    $user = intval($_SESSION['user']['id']); // ID user
+} else {
+    $user_name = ""; // Nếu không có người dùng đăng nhập, gán biến user_name là rỗng
+    $user = 0; // ID user không hợp lệ
+}
+
+// Khởi tạo kết nối PDO
 try {
     // Kết nối cơ sở dữ liệu bằng PDO
     $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // Lấy idsp từ URL, nếu không có thì đặt giá trị mặc định là 0
+
+    // Lấy id sản phẩm
     $idpro = isset($_GET['idsp']) ? intval($_GET['idsp']) : 0;
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $ten = isset($_POST['name']) ? trim($_POST['name']) : '';
-        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-        $noidung = isset($_POST['review']) ? trim($_POST['review']) : '';
-        $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 5;
-        $ngaybl = date('Y-m-d H:i:s'); // Lấy thời gian hiện tại
-        if (!empty($ten) && !empty($noidung) && $rating >= 1 && $rating <= 5) {
-            $insertQuery = "INSERT INTO binhluan (idpro, ten, email, noidung, rating, ngaybl) 
-                            VALUES (:idpro, :ten, :email, :noidung, :rating, :ngaybl)";
-            $stmt = $pdo->prepare($insertQuery);
+        // Kiểm tra nếu người dùng chưa đăng nhập
+        if ($user === 0) {
+            echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showErrorPopup('Bạn cần đăng nhập để bình luận!');
+                setTimeout(function() {
+                    window.location.href = 'index.php?act=login';
+                }, 2000); // Chờ 2 giây trước khi chuyển hướng
+            });
+        </script>";
+        } else {
+            $ten = isset($_POST['name']) ? trim($_POST['name']) : '';
+            $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+            $noidung = isset($_POST['review']) ? trim($_POST['review']) : '';
+            $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 5;
+            $ngaybl = date('Y-m-d H:i:s'); // Lấy thời gian hiện tại
+
+            // Kiểm tra nếu user đã bình luận sản phẩm này
+            $checkQuery = "SELECT COUNT(*) FROM binhluan WHERE idpro = :idpro AND user = :user";
+            $stmt = $pdo->prepare($checkQuery);
             $stmt->bindParam(':idpro', $idpro, PDO::PARAM_INT);
-            $stmt->bindParam(':ten', $ten, PDO::PARAM_STR);
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-            $stmt->bindParam(':noidung', $noidung, PDO::PARAM_STR);
-            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
-            $stmt->bindParam(':ngaybl', $ngaybl, PDO::PARAM_STR);
+            $stmt->bindParam(':user', $user, PDO::PARAM_INT);
             $stmt->execute();
 
-            echo "<script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    showSuccessPopup('Bình luận của bạn đã được thêm thành công!');
-                });
-            </script>";
-        } else {
-            echo "<p class='text-danger'>Vui lòng nhập đầy đủ thông tin và chọn đánh giá hợp lệ!</p>";
+            $hasCommented = $stmt->fetchColumn() > 0;
+
+            if ($hasCommented) {
+                echo "<script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        showErrorPopup('Bạn đã bình luận cho sản phẩm này rồi!');
+                    });
+                </script>";
+            } else {
+                if (!empty($ten) && !empty($noidung) && $rating >= 1 && $rating <= 5) {
+                    $insertQuery = "INSERT INTO binhluan (idpro, user, ten, email, noidung, rating, ngaybl) 
+                                    VALUES (:idpro, :user, :ten, :email, :noidung, :rating, :ngaybl)";
+                    $stmt = $pdo->prepare($insertQuery);
+                    $stmt->bindParam(':idpro', $idpro, PDO::PARAM_INT);
+                    $stmt->bindParam(':user', $user, PDO::PARAM_INT);
+                    $stmt->bindParam(':ten', $ten, PDO::PARAM_STR);
+                    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+                    $stmt->bindParam(':noidung', $noidung, PDO::PARAM_STR);
+                    $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+                    $stmt->bindParam(':ngaybl', $ngaybl, PDO::PARAM_STR);
+                    $stmt->execute();
+
+                    echo "<script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            showSuccessPopup('Bình luận của bạn đã được thêm thành công!');
+                        });
+                    </script>";
+                } else {
+                    echo "<p class='text-danger'>Vui lòng nhập đầy đủ thông tin và chọn đánh giá hợp lệ!</p>";
+                }
+            }
         }
     }
+
     // Truy vấn danh sách bình luận theo idpro
     $query = "SELECT ten, ngaybl, noidung, rating FROM binhluan WHERE idpro = :idpro ORDER BY ngaybl DESC";
     $stmt = $pdo->prepare($query);
@@ -82,6 +162,10 @@ try {
 }
 ?>
 
+  
+ <?php
+                extract($onesp);
+            ?>
     <div class="container" style="margin-top: 60px;">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
             <a href="index.php?act=home" class="stext-109 cl8 hov-cl1 trans-04">
@@ -95,7 +179,7 @@ try {
             </a>
 
             <span class="stext-109 cl4">
-                CREW LS JERSEY - RED
+            <?php echo $tensp ?>
             </span>
         </div>
     </div>
@@ -104,9 +188,7 @@ try {
     <!-- Product Detail -->
     <section class="sec-product-detail bg0 p-t-65 p-b-60">
         <div class="container">
-            <?php
-                extract($onesp);
-            ?>
+           
             <div class="row">
                 <div class="col-md-6 col-lg-7 p-b-30">
                     <div class="p-l-25 p-lr-0-lg">
@@ -765,5 +847,21 @@ try {
             popup.classList.remove('show');
             document.body.removeChild(popup);
         }, 3000);
-    }
+    };
+    function showErrorPopup(message) {
+    // Tạo popup
+    const popup = document.createElement('div');
+    popup.className = 'showErrorPopup';
+    popup.textContent = message;
+
+    // Thêm vào body
+    document.body.appendChild(popup);
+
+    // Tự động ẩn popup sau 3 giây
+    setTimeout(() => {
+        popup.classList.add('hidden');
+        setTimeout(() => popup.remove(), 300); // Gỡ bỏ popup sau khi hiệu ứng kết thúc
+    }, 3000);
+}
+
     </script>

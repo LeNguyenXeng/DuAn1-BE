@@ -198,6 +198,9 @@ if(isset($_GET['act'])){
                     case 'xoabl':
                         include "binhluan/delete_comment.php";
                         break;
+                        case 'listdh':
+                            include "donhang/listdh.php";
+                        break;
         
         default:
             include "home.php";
