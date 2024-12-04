@@ -111,7 +111,7 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-comments"></i></div>
                             Bình Luận
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="index.php?act=listdh">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Quản Lý Đơn Hàng
                         </a>
